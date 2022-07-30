@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:paddingBottom="20dp"
+    android:fillViewport="true"
+    >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/add_question_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/add_trivia_question"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/question_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/question_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="bottom"
+                    android:text="@string/enter_question"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/question_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/add_question_title"
+                    app:layout_constraintVertical_weight="1" />
+
+                <EditText
+                    android:id="@+id/question_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:autofillHints="When did the World Trade Center open?"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintBottom_toTopOf="@+id/options_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/question_label"
+                    app:layout_constraintVertical_weight="2" />
+
+                <TextView
+                    android:id="@+id/options_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="bottom"
+                    android:text="@string/options"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/option_a_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/question_text"
+                    app:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/option_a_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:text="@string/option_a"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/option_b_label"
+                    app:layout_constraintEnd_toStartOf="@+id/option_a_text"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/options_label"
+                    app:layout_constraintVertical_weight="1" />
+
+                <EditText
+                    android:id="@+id/option_a_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:autofillHints="1923"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    app:layout_constraintBottom_toTopOf="@+id/option_b_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="8"
+                    app:layout_constraintStart_toEndOf="@+id/option_a_label"
+                    app:layout_constraintTop_toBottomOf="@+id/options_label"
+                    app:layout_constraintVertical_bias="0.52"
+                    app:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/option_b_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:text="@string/option_b"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/option_c_label"
+                    app:layout_constraintEnd_toStartOf="@id/option_b_text"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/option_a_label"
+                    app:layout_constraintVertical_weight="1" />
+
+                <EditText
+                    android:id="@+id/option_b_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:autofillHints="1943"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    app:layout_constraintBottom_toTopOf="@+id/option_c_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="8"
+                    app:layout_constraintStart_toEndOf="@+id/option_b_label"
+                    app:layout_constraintTop_toBottomOf="@id/option_a_text"
+                    app:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/option_c_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:text="@string/option_c"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/option_d_label"
+                    app:layout_constraintEnd_toStartOf="@+id/option_c_text"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/option_b_label"
+                    app:layout_constraintVertical_weight="1" />
+
+                <EditText
+                    android:id="@+id/option_c_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:autofillHints="1963"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    app:layout_constraintBottom_toTopOf="@+id/option_d_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="8"
+                    app:layout_constraintStart_toEndOf="@id/option_c_label"
+                    app:layout_constraintTop_toBottomOf="@+id/option_b_text"
+                    app:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/option_d_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center"
+                    android:text="@string/option_d"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/hint_label"
+                    app:layout_constraintEnd_toStartOf="@+id/option_d_text"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/option_c_label"
+                    app:layout_constraintVertical_weight="1" />
+
+                <EditText
+                    android:id="@+id/option_d_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:autofillHints="1973"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    app:layout_constraintBottom_toTopOf="@+id/hint_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="8"
+                    app:layout_constraintStart_toEndOf="@+id/option_d_label"
+                    app:layout_constraintTop_toBottomOf="@+id/option_c_text"
+                    app:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/hint_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="bottom"
+                    android:text="@string/hint"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/hint_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/option_d_label"
+                    app:layout_constraintVertical_weight="1" />
+
+                <EditText
+                    android:id="@+id/hint_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:autofillHints="It was after the World War II"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintBottom_toTopOf="@+id/options_spinner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hint_label"
+                    app:layout_constraintVertical_weight="2" />
+
+                <TextView
+                    android:id="@+id/answer_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/answer"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/options_spinner"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hint_text"
+                    app:layout_constraintVertical_weight="1" />
+
+                <Spinner
+                    android:id="@+id/options_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinnerItems"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/add_question_button"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toEndOf="@id/answer_label"
+                    app:layout_constraintTop_toBottomOf="@id/hint_text"
+                    app:layout_constraintVertical_weight="1" />
+
+                <Button
+                    android:id="@+id/add_question_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/add_question"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toEndOf="@id/options_spinner"
+                    app:layout_constraintTop_toBottomOf="@id/hint_text"
+                    app:layout_constraintVertical_weight="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
