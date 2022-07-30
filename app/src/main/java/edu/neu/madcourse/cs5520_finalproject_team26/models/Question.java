@@ -1,7 +1,6 @@
 package edu.neu.madcourse.cs5520_finalproject_team26.models;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 public class Question {
@@ -9,19 +8,17 @@ public class Question {
     private String questionId;
     private String questionText;
     private String hint;
-    private String[] options;
+    private List<String> options;
     private String createdBy;
     private int answer;
     private int upVotes;
     private int downVotes;
-    private Location location;
 
-    public Question(String questionText, String[] options, String hint, int answer, Location location, String createdBy) {
+    public Question(String questionText, List<String> options, String hint, int answer, String createdBy) {
         this.questionId = UUID.randomUUID().toString();
         this.questionText = questionText;
         this.hint = hint;
         this.answer = answer;
-        this.location = location;
         this.options = options;
         this.createdBy = createdBy;
         this.upVotes = 0;
@@ -44,7 +41,7 @@ public class Question {
         return hint;
     }
 
-    public String[] getOptions() {
+    public List<String> getOptions() {
         return options;
     }
 
