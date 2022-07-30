@@ -79,10 +79,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="24dp"
                 android:text="Question goes here..."
-                android:textSize="25dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/geocoins"
-                tools:ignore="MissingConstraints" />
+                android:textSize="25dp"/>
 
             <RadioGroup
                 android:id="@+id/radioGroup"

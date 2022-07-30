@@ -16,6 +16,7 @@ import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
 public class MainActivity extends AppCompatActivity {
 
     Button triviaGamePage;
+    Button playerSummaryPage;
 
     private DatabaseReference reference;
     @Override
@@ -23,9 +24,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         triviaGamePage = findViewById(R.id.trivia_game_page_button);
+        playerSummaryPage = findViewById(R.id.player_summary_button);
 
         triviaGamePage.setOnClickListener(v -> {
             Intent intent = new Intent(this, TriviaPageActivity.class);
+            startActivity(intent);
+        });
+
+        playerSummaryPage.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PlayerSummaryActivity.class);
             startActivity(intent);
         });
 
