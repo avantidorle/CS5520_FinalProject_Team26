@@ -101,7 +101,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                                 float[] distance = new float[1];
                                 Location.distanceBetween(prevLatitude, prevLongitude, presentLatitude, presentLongitude,distance);
                                 distanceTravelled = distanceTravelled + distance[0];
-                                if (distanceTravelled > 500) {
+                                if (distanceTravelled > 150) {
                                     String address = addresses.get(0).getAddressLine(0);
                                     currentPlayerLocation.setText(address);
                                     distanceTravelled = 0;
