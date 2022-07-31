@@ -1,10 +1,12 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -78,9 +80,8 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
                 databaseReference.push().setValue(question);
 
                 updateLocation(question);
+                showPopUp();
 
-                Toast.makeText(AddQuestion.this, "Question added sucessfully!",
-                        Toast.LENGTH_SHORT).show();
                 clearInputs();
             }
 
@@ -89,6 +90,14 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
 
             }
         });
+    }
+
+    private void showPopUp() {
+
+        //TODO add geocoin to user
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custompopup);
+        dialog.show();
     }
 
     private void updateLocation(Question question) {
