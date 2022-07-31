@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import edu.neu.madcourse.cs5520_finalproject_team26.models.Location;
 import edu.neu.madcourse.cs5520_finalproject_team26.models.Question;
@@ -27,8 +28,7 @@ import edu.neu.madcourse.cs5520_finalproject_team26.models.Question;
 public class AddQuestion extends AppCompatActivity implements View.OnClickListener {
 
     private static final String CREATED_BY = "testUser";
-    private static final double LATITUDE = 0;
-    private static final double LONGITUDE = 0;
+    private static final String ADDRESS = "1209 Boylston, Boston, MA";
 
     private Button addQuestion;
     private EditText questionText;
@@ -92,7 +92,8 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
     }
 
     private void updateLocation(Question question) {
-        Location location = new Location(LATITUDE, LONGITUDE);
+        Location location = new Location(ADDRESS, question.getQuestionId());
+        final boolean[] found = {false};
         databaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
                 .getReference("locations");
 
@@ -101,12 +102,20 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     for (DataSnapshot snap: snapshot.getChildren()) {
-                        boolean found = String.valueOf(LATITUDE).equals(Objects.requireNonNull(snap.child("latitude").getValue()).toString())
-                                && String.valueOf(LONGITUDE).equals(Objects.requireNonNull(snap.child("longitude").getValue()).toString());
-                        if(found) {
-                            //TODO add in it's questions list if exists else add new location entry.
+                        found[0] = ADDRESS.equals(Objects.requireNonNull(snap.child("location").getValue()).toString());
+                        if(found[0]) {
+                            snap.child("questions").getRef().child(UUID.randomUUID().toString())
+                                    .setValue(question.getQuestionId());
+
+                            break;
                         }
                     }
+                    if(!found[0]) {
+                        databaseReference.push().setValue(location);
+                    }
+                }
+                else {
+                    databaseReference.push().setValue(location);
                 }
             }
 

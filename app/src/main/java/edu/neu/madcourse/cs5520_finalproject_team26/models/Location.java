@@ -1,19 +1,25 @@
 package edu.neu.madcourse.cs5520_finalproject_team26.models;
 
-public class Location {
-    private final double latitude;
-    private final double longitude;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
-    public Location(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+public class Location {
+
+    private String location;
+    private Map<String, String> questions;
+
+    public Location(String location, String questions) {;
+        this.location = location;
+        this.questions = new HashMap<>();
+        this.questions.put(UUID.randomUUID().toString(), questions);
     }
 
-   public double getLatitude() {
-        return latitude;
+   public String getLocation() {
+        return location;
    }
 
-   public double getLongitude() {
-        return longitude;
+   public Map<String,String> getQuestions() {
+        return questions;
    }
 }

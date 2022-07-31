@@ -10,4 +10,5 @@
     <string name="option_d">D</string>
     <string name="answer">Answer</string>
     <string name="add_question">Add</string>
+    <string name="leaderboard_title">Leaderboard</string>
 </resources>
