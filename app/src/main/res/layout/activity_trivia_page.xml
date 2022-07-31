@@ -161,6 +161,37 @@
                     android:contentDescription="sticker"
                     />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/upvotesCount"
+                    android:layout_width="85dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="24dp"
+                    android:paddingLeft="20dp"
+                    android:text="0"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    android:layout_alignParentLeft="true"
+                     />
+
+                <TextView
+                    android:id="@+id/downvotesCount"
+                    android:layout_width="85dp"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="24dp"
+                    android:paddingLeft="20dp"
+                    android:text="0"
+                    android:textSize="25dp"
+                    android:textAlignment="center"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>
