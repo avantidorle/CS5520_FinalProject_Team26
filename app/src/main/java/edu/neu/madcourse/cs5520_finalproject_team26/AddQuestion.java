@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.cs5520_finalproject_team26.models.Location;
 import edu.neu.madcourse.cs5520_finalproject_team26.models.Question;
@@ -26,6 +27,8 @@ import edu.neu.madcourse.cs5520_finalproject_team26.models.Question;
 public class AddQuestion extends AppCompatActivity implements View.OnClickListener {
 
     private static final String CREATED_BY = "testUser";
+    private static final double LATITUDE = 0;
+    private static final double LONGITUDE = 0;
 
     private Button addQuestion;
     private EditText questionText;
@@ -74,6 +77,8 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
 
                 databaseReference.push().setValue(question);
 
+                updateLocation(question);
+
                 Toast.makeText(AddQuestion.this, "Question added sucessfully!",
                         Toast.LENGTH_SHORT).show();
                 clearInputs();
@@ -84,6 +89,33 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
 
             }
         });
+    }
+
+    private void updateLocation(Question question) {
+        Location location = new Location(LATITUDE, LONGITUDE);
+        databaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
+                .getReference("locations");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    for (DataSnapshot snap: snapshot.getChildren()) {
+                        boolean found = String.valueOf(LATITUDE).equals(Objects.requireNonNull(snap.child("latitude").getValue()).toString())
+                                && String.valueOf(LONGITUDE).equals(Objects.requireNonNull(snap.child("longitude").getValue()).toString());
+                        if(found) {
+                            //TODO add in it's questions list if exists else add new location entry.
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void clearInputs() {

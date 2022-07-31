@@ -56,4 +56,8 @@ public class Question {
     public int getDownVotes() {
         return downVotes;
     }
+
+    public String getQuestionId() {
+        return questionId;
+    }
 }

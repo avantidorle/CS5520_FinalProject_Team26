@@ -25,7 +25,7 @@
         <activity
             android:name=".AddQuestion"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
