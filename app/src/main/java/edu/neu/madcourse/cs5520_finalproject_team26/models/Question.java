@@ -60,4 +60,7 @@ public class Question {
     public String getQuestionId() {
         return questionId;
     }
+    public String getCreatedBy() {
+        return createdBy;
+    }
 }
