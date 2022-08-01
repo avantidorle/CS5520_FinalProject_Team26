@@ -11,4 +11,5 @@
     <string name="answer">Answer</string>
     <string name="add_question">Add</string>
     <string name="leaderboard_title">Leaderboard</string>
+    <string name="praise">Awesome! \nYou just earned a Geo-Coin!</string>
 </resources>

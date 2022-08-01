@@ -19,8 +19,7 @@
         android:id="@+id/awesome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:text="Awesome! \nYou just earned a Geo-Coin!"
+        android:text="@string/praise"
         android:textSize="24sp"
         android:textAlignment="center"
         android:textStyle="bold"
