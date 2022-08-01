@@ -19,19 +19,19 @@ public class User {
         return userId;
     }
 
-    public String getEmail() {
+    public String getEmailId() {
         return emailId;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public int getCoins() {
+    public int getGeoCoins() {
         return geoCoins;
     }
 
-    public String getProfileImage() {
+    public String getProfilePic() {
         return profilePic;
     }
 
