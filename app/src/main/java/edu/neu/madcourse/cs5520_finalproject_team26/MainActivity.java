@@ -25,13 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        reference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
-//                .getReference("users");
-
-//        String userId = UUID.randomUUID().toString();
-//        User user = new User("dummyUser", userId);
-//        ref.push().setValue(user);
-
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         if(user == null) {
