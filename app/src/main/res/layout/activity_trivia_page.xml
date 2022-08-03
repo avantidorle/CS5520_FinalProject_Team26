@@ -20,6 +20,7 @@
 
     <ImageView
         android:id="@+id/questionHint"
+        android:onClick="getQuestionHint"
         android:layout_width="92dp"
         android:layout_height="78dp"
         android:layout_alignParentLeft="true"
@@ -99,6 +100,7 @@
                     android:layout_height="55dp"
                     android:checked="false"
                     android:text="OPTION 1"
+                    android:onClick="selectedOption1"
                     android:textSize="25dp" />
 
                 <RadioButton
@@ -108,6 +110,7 @@
                     android:layout_weight="0.13"
                     android:checked="false"
                     android:text="OPTION 2"
+                    android:onClick="selectedOption2"
                     android:textSize="25dp" />
 
                 <RadioButton
@@ -117,6 +120,7 @@
                     android:layout_weight="0.13"
                     android:checked="false"
                     android:text="OPTION 3"
+                    android:onClick="selectedOption3"
                     android:textSize="25dp" />
 
                 <RadioButton
@@ -126,40 +130,43 @@
                     android:layout_weight="0.13"
                     android:checked="false"
                     android:text="OPTION 4"
+                    android:onClick="selectedOption4"
                     android:textSize="25dp" />
             </RadioGroup>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:id="@+id/receivedMessage_pn"
-                    android:src="@mipmap/like_icon_foreground"
+                    android:onClick="likeQuestion"
                     android:layout_width="85dp"
                     android:layout_height="85dp"
                     android:layout_alignParentLeft="true"
                     android:contentDescription="sticker"
+                    android:paddingLeft="20dp"
                     android:paddingTop="10dp"
-                    android:paddingLeft="20dp" />
+                    android:src="@mipmap/like_icon_foreground" />
 
                 <Button
                     android:id="@+id/nextQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="goToNextQuestion"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
                     android:text="Next" />
 
                 <ImageView
                     android:id="@+id/sentMessage_pn"
-                    android:src="@mipmap/dislike_icon_foreground"
                     android:layout_width="85dp"
                     android:layout_height="85dp"
                     android:layout_alignParentRight="true"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
                     android:contentDescription="sticker"
-                    />
+                    android:onClick="dislikeQuestion"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:src="@mipmap/dislike_icon_foreground" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -170,27 +177,25 @@
                     android:id="@+id/upvotesCount"
                     android:layout_width="85dp"
                     android:layout_height="38dp"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="24dp"
                     android:paddingLeft="20dp"
                     android:text="0"
-                    android:textSize="25dp"
                     android:textAlignment="center"
-                    android:layout_alignParentLeft="true"
-                     />
+                    android:textSize="25dp" />
 
                 <TextView
                     android:id="@+id/downvotesCount"
                     android:layout_width="85dp"
                     android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="24dp"
                     android:paddingLeft="20dp"
                     android:text="0"
-                    android:textSize="25dp"
                     android:textAlignment="center"
-                    android:layout_alignParentRight="true"
-                    />
+                    android:textSize="25dp" />
             </RelativeLayout>
         </LinearLayout>
 
