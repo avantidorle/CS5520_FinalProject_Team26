@@ -140,11 +140,12 @@
 
                 <ImageView
                     android:id="@+id/receivedMessage_pn"
-                    android:onClick="likeQuestion"
                     android:layout_width="85dp"
                     android:layout_height="85dp"
                     android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="3dp"
                     android:contentDescription="sticker"
+                    android:onClick="likeQuestion"
                     android:paddingLeft="20dp"
                     android:paddingTop="10dp"
                     android:src="@mipmap/like_icon_foreground" />

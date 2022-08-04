@@ -5,11 +5,13 @@ public class QuestionUser {
     public String questionId;
     public String vote;
     public boolean answer;
+    public String userIdAndQuestionId;
 
-    public QuestionUser(String userId, String questionId, String vote, boolean answer) {
+    public QuestionUser(String userId, String questionId, String vote, boolean answer, String userIdAndQuestionId) {
         this.userId = userId;
         this.questionId = questionId;
         this.vote = vote;
         this.answer = answer;
+        this.userIdAndQuestionId = userIdAndQuestionId;
     }
 }
