@@ -2,15 +2,10 @@ package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.RadioButton;
@@ -21,8 +16,6 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 import edu.neu.madcourse.cs5520_finalproject_team26.models.QuestionUser;
 
@@ -63,10 +54,6 @@ public class TriviaPageActivity extends AppCompatActivity {
     private DatabaseReference questionsTable;
     private DatabaseReference questionUserTable;
     private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
-    String k = "";
-    boolean qExists = false;
-    boolean questionAlreadyInQuestionUserTable = false;
-    boolean isQuestionSet = false;
     int randomNumber = 0;
     int questionIterator = 0;
     String presentQuestionId = "";
@@ -193,7 +180,8 @@ public class TriviaPageActivity extends AppCompatActivity {
                                             boolean ans = false;
                                             String usrIdQuesId = usrId + " " + qId;
                                             String usrIdNLocAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + ans;
-                                            QuestionUser questionUser = new QuestionUser(usrId, qId, vote, ans, usrIdQuesId, usrIdNLocAns);
+                                            String loc = currentPlayerLocation.getText().toString();
+                                            QuestionUser questionUser = new QuestionUser(usrId, qId, vote, ans, usrIdQuesId, usrIdNLocAns, loc);
                                             questionUserTable.push().setValue(questionUser);
                                         }
                                     }
@@ -379,107 +367,6 @@ public class TriviaPageActivity extends AppCompatActivity {
 
             }
         });
-        //
-
-//        Query locationBasedQuestionsIds = locationTable.orderByChild("location").equalTo(currentPlayerLocation.getText().toString());
-//        locationBasedQuestionsIds.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    for (DataSnapshot ds: snapshot.getChildren()) {
-//
-//                        randomNumber = (int) (Math.random() * (ds.child("questions").getChildrenCount()));
-//
-//                        questionIterator = 0;
-//
-//                        for (DataSnapshot qid: ds.child("questions").getChildren()) {
-//                            if (qid.exists()) {
-//                                if (randomNumber == questionIterator) {
-//                                    presentQuestionId = qid.getValue().toString();
-//                                    doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
-//                                    Query getQuestion = questionsTable.orderByChild("questionId").equalTo(presentQuestionId);
-//                                    getQuestion.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                        @Override
-//                                        public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
-//                                            if (questionSnapshot.exists()) {
-//                                                for(DataSnapshot qSnap: questionSnapshot.getChildren()) {
-//                                                    String questionText = qSnap.child("questionText").getValue().toString();
-//                                                    String likes = qSnap.child("upVotes").getValue().toString();
-//                                                    String dislikes = qSnap.child("downVotes").getValue().toString();
-//                                                    upVotes.setText(likes);
-//                                                    downVotes.setText(dislikes);
-//                                                    presentQuestionAnswer = qSnap.child("answer").getValue().toString();
-//                                                    questionHint = qSnap.child("hint").getValue().toString();
-//                                                    question.setText(presentQuestionAnswer + " " + questionText);
-//                                                    int o=0;
-//                                                    option1.setEnabled(true);
-//                                                    option2.setEnabled(true);
-//                                                    option3.setEnabled(true);
-//                                                    option4.setEnabled(true);
-//                                                    for (DataSnapshot options: qSnap.child("options").getChildren()) {
-//                                                        if (o == 0) {
-//                                                            option1.setText(options.getValue().toString());
-//                                                        } else if (o == 1) {
-//                                                            option2.setText(options.getValue().toString());
-//                                                        } else if (o == 2) {
-//                                                            option3.setText(options.getValue().toString());
-//                                                        } else if (o == 3) {
-//                                                            option4.setText(options.getValue().toString());
-//                                                        }
-//                                                        o++;
-//                                                    }
-//                                                    break;
-//                                                }
-//
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                        }
-//                                    });
-//                                    Query questionsAnsweredByUser = questionUserTable.orderByChild("userId").equalTo(loggedInUserUserId);
-//                                    questionsAnsweredByUser.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                        @Override
-//                                        public void onDataChange(@NonNull DataSnapshot questionsAnsweredSnapshot) {
-//                                            if (questionsAnsweredSnapshot.exists()) {
-//                                                questionLikedDislikedStatus = "not voted";
-//                                                for (DataSnapshot qAS: questionsAnsweredSnapshot.getChildren()) {
-//                                                    String quesId = qAS.child("questionId").getValue().toString();
-//                                                    if (quesId.equals(presentQuestionId)) {
-//                                                        String vote = qAS.child("vote").getValue().toString();
-//                                                        if (vote.equals("liked") || vote.equals("disliked")) {
-//                                                           questionLikedDislikedStatus = vote;
-//                                                        }
-//                                                        break;
-//                                                    }
-//                                                }
-//
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                        }
-//                                    });
-//                                    break;
-//                                }
-//                                questionIterator++;
-//                            }
-//                        }
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
     }
 
     public void checkForRightAnswer(String selectedAnswer) {
@@ -518,6 +405,7 @@ public class TriviaPageActivity extends AppCompatActivity {
         boolean answer = questionAnsweredCorrectlyByPlayer;
         String usrQuesId = usrId + " " + quesId;
         String usrIdNLocNAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + answer;
+        String loc = currentPlayerLocation.getText().toString();
         if (questionUserPairAlreadyExists) {
             questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrQuesId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -539,7 +427,7 @@ public class TriviaPageActivity extends AppCompatActivity {
             });
 
         } else {
-            QuestionUser questionUser = new QuestionUser(usrId, quesId, vote, answer, usrQuesId, usrIdNLocNAns);
+            QuestionUser questionUser = new QuestionUser(usrId, quesId, vote, answer, usrQuesId, usrIdNLocNAns, loc);
             questionUserTable.push().setValue(questionUser);
             doesQuestionUserPairAlreadyExist(usrId, quesId);
         }
@@ -548,6 +436,7 @@ public class TriviaPageActivity extends AppCompatActivity {
 
     public void selectedOption1(View view) {
         checkForRightAnswer("0");
+        option1.setEnabled(false);
         option2.setEnabled(false);
         option3.setEnabled(false);
         option4.setEnabled(false);
@@ -556,6 +445,7 @@ public class TriviaPageActivity extends AppCompatActivity {
     public void selectedOption2(View view) {
         checkForRightAnswer("1");
         option1.setEnabled(false);
+        option2.setEnabled(false);
         option3.setEnabled(false);
         option4.setEnabled(false);
     }
@@ -564,6 +454,7 @@ public class TriviaPageActivity extends AppCompatActivity {
         checkForRightAnswer("2");
         option1.setEnabled(false);
         option2.setEnabled(false);
+        option3.setEnabled(false);
         option4.setEnabled(false);
     }
 
@@ -572,6 +463,7 @@ public class TriviaPageActivity extends AppCompatActivity {
         option1.setEnabled(false);
         option2.setEnabled(false);
         option3.setEnabled(false);
+        option4.setEnabled(false);
     }
 
     public void goToNextQuestion(View view) {
@@ -598,6 +490,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                             boolean answer = questionAnsweredCorrectlyByPlayer;
                             String usrQuesId = usrId + " " + qId;
                             String usrIdNLocNAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + answer;
+                            String loc = currentPlayerLocation.getText().toString();
                             if (questionUserPairAlreadyExists) {
                                 questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrQuesId).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -618,7 +511,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                                 });
                                 //
                             } else {
-                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId, usrIdNLocNAns);
+                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId, usrIdNLocNAns, loc);
                                 questionUserTable.push().setValue(questionUser);
                                 doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
                             }
@@ -657,6 +550,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                             boolean answer = questionAnsweredCorrectlyByPlayer;
                             String usrQuesId = usrId + " " + qId;
                             String usrIdNLocNAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + answer;
+                            String loc = currentPlayerLocation.getText().toString();
                             if (questionUserPairAlreadyExists) {
                                 questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrQuesId).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -677,7 +571,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                                 });
                                 //
                             } else {
-                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId, usrIdNLocNAns);
+                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId, usrIdNLocNAns, loc);
                                 questionUserTable.push().setValue(questionUser);
                                 doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
                             }

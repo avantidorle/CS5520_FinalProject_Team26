@@ -90,8 +90,8 @@
                 <TextView
                     android:id="@+id/totalQuestionsAnswered"
                     android:layout_width="87dp"
-                    android:layout_height="66dp"
-                    android:text="TOTAL QUESTIONS ANSWERED"
+                    android:layout_height="86dp"
+                    android:text="TOTAL QUESTIONS ANSWERED CORRECTLY"
                     android:textAlignment="center"
                     android:textSize="15dp" />
 
@@ -100,6 +100,7 @@
                     android:layout_width="83dp"
                     android:layout_height="66dp"
                     android:layout_marginLeft="89dp"
+                    android:paddingTop="15dp"
                     android:text="0"
                     android:textAlignment="center"
                     android:textSize="25dp" />
@@ -107,10 +108,10 @@
                 <TextView
                     android:id="@+id/totalQuestionsContributed"
                     android:layout_width="100dp"
-                    android:layout_height="66dp"
+                    android:layout_height="86dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="92dp"
-                    android:text="TOTAL QUESTIONS CONTRIBUTED"
+                    android:text="\n TOTAL QUESTIONS CONTRIBUTED"
                     android:textAlignment="center"
                     android:textSize="15dp" />
 
@@ -118,6 +119,7 @@
                     android:id="@+id/totalQuestionsContributedCount"
                     android:layout_width="83dp"
                     android:layout_height="66dp"
+                    android:paddingTop="15dp"
                     android:layout_alignParentRight="true"
                     android:text="0"
                     android:textAlignment="center"

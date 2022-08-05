@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class PlayerSummaryActivity extends AppCompatActivity {
@@ -26,12 +27,16 @@ public class PlayerSummaryActivity extends AppCompatActivity {
     private TextView totalQuestionsAnsweredCount;
     private TextView playerRank;
     private ImageView playerImage;
+    private TextView visitedLocations;
     private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
 
     DatabaseReference usersTable;
     DatabaseReference questionsTable;
     DatabaseReference questionUserTable;
+    ArrayList<String> locations = new ArrayList<>();
     int rank = 0;
+    String locationsVisited = "";
+    int correctlyAnsweredQuestionsCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,7 @@ public class PlayerSummaryActivity extends AppCompatActivity {
                         Picasso.get().load(profilePic).into(playerImage);
 
 
-                        Query questionsContributed = questionsTable.orderByChild("createdBy").equalTo(name);
+                        Query questionsContributed = questionsTable.orderByChild("createdBy").equalTo(loggedInUserUserId);
                         questionsContributed.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot questionsContributedSnapshot) {
@@ -92,7 +97,14 @@ public class PlayerSummaryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot questionsAnsweredSnapshot) {
                 if (questionsAnsweredSnapshot.exists()) {
-                    totalQuestionsAnsweredCount.setText(String.valueOf(questionsAnsweredSnapshot.getChildrenCount()));
+                    for (DataSnapshot QA: questionsAnsweredSnapshot.getChildren()) {
+                        String answer = QA.child("answer").getValue().toString();
+                        if (answer == "true") {
+                            correctlyAnsweredQuestionsCount++;
+                            totalQuestionsAnsweredCount.setText(String.valueOf(correctlyAnsweredQuestionsCount));
+                        }
+                    }
+//                    totalQuestionsAnsweredCount.setText(String.valueOf(questionsAnsweredSnapshot.getChildrenCount()));
                 }
             }
 
@@ -118,6 +130,30 @@ public class PlayerSummaryActivity extends AppCompatActivity {
                     }
 
                     playerRank.setText(String.valueOf( (snapshot.getChildrenCount()) - rank + 1));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        // display question covered by the player
+        visitedLocations = findViewById(R.id.visitedLocations);
+        Query userSpecificRecords = questionUserTable.orderByChild("userId").equalTo(loggedInUserUserId);
+        userSpecificRecords.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot ss: snapshot.getChildren()) {
+                        String location = ss.child("location").getValue().toString();
+                        if (!locations.contains(location)) {
+                            locations.add(location);
+                            locationsVisited = locationsVisited + location +  "\n";
+                            visitedLocations.setText(locationsVisited);
+                        }
+                    }
                 }
             }
 
