@@ -7,13 +7,15 @@ public class QuestionUser {
     public boolean answer;
     public String userIdAndQuestionId;
     public String userIdAndLocationAndAnswer;
+    public String location;
 
-    public QuestionUser(String userId, String questionId, String vote, boolean answer, String userIdAndQuestionId, String userIdAndLocationAndAnswer) {
+    public QuestionUser(String userId, String questionId, String vote, boolean answer, String userIdAndQuestionId, String userIdAndLocationAndAnswer, String location) {
         this.userId = userId;
         this.questionId = questionId;
         this.vote = vote;
         this.answer = answer;
         this.userIdAndQuestionId = userIdAndQuestionId;
         this.userIdAndLocationAndAnswer = userIdAndLocationAndAnswer;
+        this.location = location;
     }
 }
