@@ -228,6 +228,29 @@ public class TriviaPageActivity extends AppCompatActivity {
         questionAnsweredCorrectlyByPlayer = false;
         locationTable =  FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("locations");
         questionsTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questions");
+        questionUserTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questionuser");
+
+//        String usrIdAndLocNAns = loggedInUserUserId + " " + currentPlayerLocation.getText().toString() + " " +  questionAnsweredCorrectlyByPlayer;
+//        Query questionsAttemptedByPlayer = questionsTable.orderByChild("userIdAndLocationAndAnswer").equalTo(usrIdAndLocNAns);
+//        questionsAttemptedByPlayer.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot questionsAttemptedByPlayerSnapshot) {
+//                if (questionsAttemptedByPlayerSnapshot.exists()) {
+//                    if (questionsAttemptedByPlayerSnapshot.getChildrenCount() == 2) {
+//
+//                    } else {
+//                        Toast.makeText(getBaseContext(), "No more questions available for this location", Toast.LENGTH_LONG).show();
+//                    }
+//                } else {
+//                    Toast.makeText(getBaseContext(), "0000000000", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         Query locationBasedQuestionsIds = locationTable.orderByChild("location").equalTo(currentPlayerLocation.getText().toString());
         locationBasedQuestionsIds.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -365,6 +388,7 @@ public class TriviaPageActivity extends AppCompatActivity {
         String vote = questionLikedDislikedStatus;
         boolean answer = questionAnsweredCorrectlyByPlayer;
         String usrQuesId = usrId + " " + quesId;
+        String usrIdNLocNAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + answer;
         if (questionUserPairAlreadyExists) {
             questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrQuesId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -373,6 +397,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                         for (DataSnapshot ds: snapshot.getChildren()) {
                             String key = ds.getKey();
                             questionUserTable.child(key).child("answer").setValue(questionAnsweredCorrectlyByPlayer);
+                            questionUserTable.child(key).child("userIdAndLocationAndAnswer").setValue(usrIdNLocNAns);
                             break;
                         }
                     }
@@ -385,7 +410,7 @@ public class TriviaPageActivity extends AppCompatActivity {
             });
 
         } else {
-            QuestionUser questionUser = new QuestionUser(usrId, quesId, vote, answer, usrQuesId);
+            QuestionUser questionUser = new QuestionUser(usrId, quesId, vote, answer, usrQuesId, usrIdNLocNAns);
             questionUserTable.push().setValue(questionUser);
             doesQuestionUserPairAlreadyExist(usrId, quesId);
         }
@@ -443,6 +468,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                             questionLikedDislikedStatus = vote;
                             boolean answer = questionAnsweredCorrectlyByPlayer;
                             String usrQuesId = usrId + " " + qId;
+                            String usrIdNLocNAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + answer;
                             if (questionUserPairAlreadyExists) {
                                 questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrQuesId).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -463,7 +489,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                                 });
                                 //
                             } else {
-                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId);
+                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId, usrIdNLocNAns);
                                 questionUserTable.push().setValue(questionUser);
                                 doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
                             }
@@ -501,6 +527,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                             questionLikedDislikedStatus = vote;
                             boolean answer = questionAnsweredCorrectlyByPlayer;
                             String usrQuesId = usrId + " " + qId;
+                            String usrIdNLocNAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + answer;
                             if (questionUserPairAlreadyExists) {
                                 questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrQuesId).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -521,14 +548,10 @@ public class TriviaPageActivity extends AppCompatActivity {
                                 });
                                 //
                             } else {
-                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId);
+                                QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId, usrIdNLocNAns);
                                 questionUserTable.push().setValue(questionUser);
                                 doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
                             }
-
-
-//                            QuestionUser questionUser = new QuestionUser(usrId, qId, vote, answer, usrQuesId);
-//                            questionUserTable.push().setValue(questionUser);
                             break;
                         }
                     }

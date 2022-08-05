@@ -6,12 +6,14 @@ public class QuestionUser {
     public String vote;
     public boolean answer;
     public String userIdAndQuestionId;
+    public String userIdAndLocationAndAnswer;
 
-    public QuestionUser(String userId, String questionId, String vote, boolean answer, String userIdAndQuestionId) {
+    public QuestionUser(String userId, String questionId, String vote, boolean answer, String userIdAndQuestionId, String userIdAndLocationAndAnswer) {
         this.userId = userId;
         this.questionId = questionId;
         this.vote = vote;
         this.answer = answer;
         this.userIdAndQuestionId = userIdAndQuestionId;
+        this.userIdAndLocationAndAnswer = userIdAndLocationAndAnswer;
     }
 }
