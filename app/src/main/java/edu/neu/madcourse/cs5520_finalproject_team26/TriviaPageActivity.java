@@ -75,6 +75,7 @@ public class TriviaPageActivity extends AppCompatActivity {
     String questionLikedDislikedStatus = "not voted";
     boolean questionAnsweredCorrectlyByPlayer = false;
     boolean questionUserPairAlreadyExists = false;
+    int iterator = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,8 +166,59 @@ public class TriviaPageActivity extends AppCompatActivity {
         }
          */
 
+        currentPlayerLocation.setText("Central Park");
+
+        // add a record in the question user table only if it does nor exist
+        locationTable =  FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("locations");
         questionUserTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questionuser");
-        currentPlayerLocation.setText("1209 Boylston, Boston, MA");
+        Query locationBasedQuestionsIds = locationTable.orderByChild("location").equalTo(currentPlayerLocation.getText().toString());
+        locationBasedQuestionsIds.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds: snapshot.getChildren()) {
+                        iterator = 0;
+                        for (DataSnapshot qid: ds.child("questions").getChildren()) {
+                            if (qid.exists()) {
+                                iterator++;
+                                String usrIdQuestionId = loggedInUserUserId + " " + qid.getValue().toString();
+                                Query userIdQuestionIdPair = questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrIdQuestionId);
+                                userIdQuestionIdPair.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot userIdQuestionIdPairSnapshot) {
+                                        if(!userIdQuestionIdPairSnapshot.exists()) {
+                                            String usrId = loggedInUserUserId;
+                                            String qId = qid.getValue().toString();
+                                            String vote = "not voted";
+                                            boolean ans = false;
+                                            String usrIdQuesId = usrId + " " + qId;
+                                            String usrIdNLocAns = usrId + " " + currentPlayerLocation.getText().toString() + " " + ans;
+                                            QuestionUser questionUser = new QuestionUser(usrId, qId, vote, ans, usrIdQuesId, usrIdNLocAns);
+                                            questionUserTable.push().setValue(questionUser);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+                        break;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        questionUserTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questionuser");
         question = findViewById(R.id.question);
         option1 = findViewById(R.id.option1);
         option2 = findViewById(R.id.option2);
@@ -175,7 +227,6 @@ public class TriviaPageActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         upVotes = findViewById(R.id.upvotesCount);
         downVotes = findViewById(R.id.downvotesCount);
-        setQuestion();
 
         // USER SPECIFIC DETAILS
         usersTable =  FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
@@ -199,6 +250,8 @@ public class TriviaPageActivity extends AppCompatActivity {
 
             }
         });
+
+        setQuestion();
 
     }
 
@@ -230,118 +283,94 @@ public class TriviaPageActivity extends AppCompatActivity {
         questionsTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questions");
         questionUserTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questionuser");
 
-//        String usrIdAndLocNAns = loggedInUserUserId + " " + currentPlayerLocation.getText().toString() + " " +  questionAnsweredCorrectlyByPlayer;
-//        Query questionsAttemptedByPlayer = questionsTable.orderByChild("userIdAndLocationAndAnswer").equalTo(usrIdAndLocNAns);
-//        questionsAttemptedByPlayer.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot questionsAttemptedByPlayerSnapshot) {
-//                if (questionsAttemptedByPlayerSnapshot.exists()) {
-//                    if (questionsAttemptedByPlayerSnapshot.getChildrenCount() == 2) {
-//
-//                    } else {
-//                        Toast.makeText(getBaseContext(), "No more questions available for this location", Toast.LENGTH_LONG).show();
-//                    }
-//                } else {
-//                    Toast.makeText(getBaseContext(), "0000000000", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
-        Query locationBasedQuestionsIds = locationTable.orderByChild("location").equalTo(currentPlayerLocation.getText().toString());
-        locationBasedQuestionsIds.addListenerForSingleValueEvent(new ValueEventListener() {
+        //
+        Query questionAnsweredIncorrectly = questionUserTable.orderByChild("userIdAndLocationAndAnswer").equalTo(loggedInUserUserId + " " + currentPlayerLocation.getText().toString() + " "+ false);
+        questionAnsweredIncorrectly.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    for (DataSnapshot ds: snapshot.getChildren()) {
+                    randomNumber = (int) (Math.random() * (snapshot.getChildrenCount()));
+                    questionIterator = 0;
+                    if (snapshot.getChildrenCount() > 0) {
+                        for (DataSnapshot sp : snapshot.getChildren()) {
+                            String questionId = sp.child("questionId").getValue().toString();
+                            if (randomNumber == questionIterator) {
+                                presentQuestionId = questionId;
+                                doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
+                                Query getQuestion = questionsTable.orderByChild("questionId").equalTo(presentQuestionId);
+                                getQuestion.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
+                                        if (questionSnapshot.exists()) {
+                                            for (DataSnapshot qSnap : questionSnapshot.getChildren()) {
+                                                String questionText = qSnap.child("questionText").getValue().toString();
+                                                String likes = qSnap.child("upVotes").getValue().toString();
+                                                String dislikes = qSnap.child("downVotes").getValue().toString();
+                                                upVotes.setText(likes);
+                                                downVotes.setText(dislikes);
+                                                presentQuestionAnswer = qSnap.child("answer").getValue().toString();
+                                                questionHint = qSnap.child("hint").getValue().toString();
+                                                question.setText(presentQuestionAnswer + " " + questionText);
+                                                int o = 0;
+                                                option1.setEnabled(true);
+                                                option2.setEnabled(true);
+                                                option3.setEnabled(true);
+                                                option4.setEnabled(true);
+                                                for (DataSnapshot options : qSnap.child("options").getChildren()) {
+                                                    if (o == 0) {
+                                                        option1.setText(options.getValue().toString());
+                                                    } else if (o == 1) {
+                                                        option2.setText(options.getValue().toString());
+                                                    } else if (o == 2) {
+                                                        option3.setText(options.getValue().toString());
+                                                    } else if (o == 3) {
+                                                        option4.setText(options.getValue().toString());
+                                                    }
+                                                    o++;
+                                                }
+                                                break;
+                                            }
 
-                        randomNumber = (int) (Math.random() * (ds.child("questions").getChildrenCount()));
+                                        }
+                                    }
 
-                        questionIterator = 0;
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                        for (DataSnapshot qid: ds.child("questions").getChildren()) {
-                            if (qid.exists()) {
-                                if (randomNumber == questionIterator) {
-                                    presentQuestionId = qid.getValue().toString();
-                                    doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
-                                    Query getQuestion = questionsTable.orderByChild("questionId").equalTo(presentQuestionId);
-                                    getQuestion.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
-                                            if (questionSnapshot.exists()) {
-                                                for(DataSnapshot qSnap: questionSnapshot.getChildren()) {
-                                                    String questionText = qSnap.child("questionText").getValue().toString();
-                                                    String likes = qSnap.child("upVotes").getValue().toString();
-                                                    String dislikes = qSnap.child("downVotes").getValue().toString();
-                                                    upVotes.setText(likes);
-                                                    downVotes.setText(dislikes);
-                                                    presentQuestionAnswer = qSnap.child("answer").getValue().toString();
-                                                    questionHint = qSnap.child("hint").getValue().toString();
-                                                    question.setText(presentQuestionAnswer + " " + questionText);
-                                                    int o=0;
-                                                    option1.setEnabled(true);
-                                                    option2.setEnabled(true);
-                                                    option3.setEnabled(true);
-                                                    option4.setEnabled(true);
-                                                    for (DataSnapshot options: qSnap.child("options").getChildren()) {
-                                                        if (o == 0) {
-                                                            option1.setText(options.getValue().toString());
-                                                        } else if (o == 1) {
-                                                            option2.setText(options.getValue().toString());
-                                                        } else if (o == 2) {
-                                                            option3.setText(options.getValue().toString());
-                                                        } else if (o == 3) {
-                                                            option4.setText(options.getValue().toString());
-                                                        }
-                                                        o++;
+                                    }
+                                });
+                                Query questionsAnsweredByUser = questionUserTable.orderByChild("userId").equalTo(loggedInUserUserId);
+                                questionsAnsweredByUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot questionsAnsweredSnapshot) {
+                                        if (questionsAnsweredSnapshot.exists()) {
+                                            questionLikedDislikedStatus = "not voted";
+                                            for (DataSnapshot qAS : questionsAnsweredSnapshot.getChildren()) {
+                                                String quesId = qAS.child("questionId").getValue().toString();
+                                                if (quesId.equals(presentQuestionId)) {
+                                                    String vote = qAS.child("vote").getValue().toString();
+                                                    if (vote.equals("liked") || vote.equals("disliked")) {
+                                                        questionLikedDislikedStatus = vote;
                                                     }
                                                     break;
                                                 }
-
                                             }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
 
                                         }
-                                    });
-                                    Query questionsAnsweredByUser = questionUserTable.orderByChild("userId").equalTo(loggedInUserUserId);
-                                    questionsAnsweredByUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot questionsAnsweredSnapshot) {
-                                            if (questionsAnsweredSnapshot.exists()) {
-                                                questionLikedDislikedStatus = "not voted";
-                                                for (DataSnapshot qAS: questionsAnsweredSnapshot.getChildren()) {
-                                                    String quesId = qAS.child("questionId").getValue().toString();
-                                                    if (quesId.equals(presentQuestionId)) {
-                                                        String vote = qAS.child("vote").getValue().toString();
-                                                        if (vote.equals("liked") || vote.equals("disliked")) {
-                                                           questionLikedDislikedStatus = vote;
-                                                        }
-                                                        break;
-                                                    }
-                                                }
+                                    }
 
-                                            }
-                                        }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                    break;
-                                }
-                                questionIterator++;
+                                    }
+                                });
+                                break;
                             }
+                            questionIterator++;
                         }
-                        break;
                     }
+                } else {
+                    Toast.makeText(getBaseContext(), "done with all questions", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -350,6 +379,106 @@ public class TriviaPageActivity extends AppCompatActivity {
 
             }
         });
+        //
+
+//        Query locationBasedQuestionsIds = locationTable.orderByChild("location").equalTo(currentPlayerLocation.getText().toString());
+//        locationBasedQuestionsIds.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    for (DataSnapshot ds: snapshot.getChildren()) {
+//
+//                        randomNumber = (int) (Math.random() * (ds.child("questions").getChildrenCount()));
+//
+//                        questionIterator = 0;
+//
+//                        for (DataSnapshot qid: ds.child("questions").getChildren()) {
+//                            if (qid.exists()) {
+//                                if (randomNumber == questionIterator) {
+//                                    presentQuestionId = qid.getValue().toString();
+//                                    doesQuestionUserPairAlreadyExist(loggedInUserUserId, presentQuestionId);
+//                                    Query getQuestion = questionsTable.orderByChild("questionId").equalTo(presentQuestionId);
+//                                    getQuestion.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot questionSnapshot) {
+//                                            if (questionSnapshot.exists()) {
+//                                                for(DataSnapshot qSnap: questionSnapshot.getChildren()) {
+//                                                    String questionText = qSnap.child("questionText").getValue().toString();
+//                                                    String likes = qSnap.child("upVotes").getValue().toString();
+//                                                    String dislikes = qSnap.child("downVotes").getValue().toString();
+//                                                    upVotes.setText(likes);
+//                                                    downVotes.setText(dislikes);
+//                                                    presentQuestionAnswer = qSnap.child("answer").getValue().toString();
+//                                                    questionHint = qSnap.child("hint").getValue().toString();
+//                                                    question.setText(presentQuestionAnswer + " " + questionText);
+//                                                    int o=0;
+//                                                    option1.setEnabled(true);
+//                                                    option2.setEnabled(true);
+//                                                    option3.setEnabled(true);
+//                                                    option4.setEnabled(true);
+//                                                    for (DataSnapshot options: qSnap.child("options").getChildren()) {
+//                                                        if (o == 0) {
+//                                                            option1.setText(options.getValue().toString());
+//                                                        } else if (o == 1) {
+//                                                            option2.setText(options.getValue().toString());
+//                                                        } else if (o == 2) {
+//                                                            option3.setText(options.getValue().toString());
+//                                                        } else if (o == 3) {
+//                                                            option4.setText(options.getValue().toString());
+//                                                        }
+//                                                        o++;
+//                                                    }
+//                                                    break;
+//                                                }
+//
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                        }
+//                                    });
+//                                    Query questionsAnsweredByUser = questionUserTable.orderByChild("userId").equalTo(loggedInUserUserId);
+//                                    questionsAnsweredByUser.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot questionsAnsweredSnapshot) {
+//                                            if (questionsAnsweredSnapshot.exists()) {
+//                                                questionLikedDislikedStatus = "not voted";
+//                                                for (DataSnapshot qAS: questionsAnsweredSnapshot.getChildren()) {
+//                                                    String quesId = qAS.child("questionId").getValue().toString();
+//                                                    if (quesId.equals(presentQuestionId)) {
+//                                                        String vote = qAS.child("vote").getValue().toString();
+//                                                        if (vote.equals("liked") || vote.equals("disliked")) {
+//                                                           questionLikedDislikedStatus = vote;
+//                                                        }
+//                                                        break;
+//                                                    }
+//                                                }
+//
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                        }
+//                                    });
+//                                    break;
+//                                }
+//                                questionIterator++;
+//                            }
+//                        }
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
     }
 
