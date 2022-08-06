@@ -17,7 +17,7 @@ import java.util.UUID;
 import edu.neu.madcourse.cs5520_finalproject_team26.models.QuestionUser;
 import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
 
-public class MainActivity extends AppCompatActivity {
+public class  MainActivity extends AppCompatActivity {
 
     Button triviaGamePage;
     Button playerSummaryPage;
@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Button addDummyData;
 
     private DatabaseReference reference;
+    private Button viewMessages;
+    private Button leaveNote;
     private FirebaseAuth auth;
 
     @Override
@@ -70,9 +72,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logOutClick(View view) {
-
-
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    private void openLeaveNoteActivity() {
+        Intent intent = new Intent(this, LeaveNoteActivity.class);
+        startActivity(intent);
+    }
+
+    private void openViewMessagesActivity() {
+        Intent intent = new Intent(this, ViewMessagesActivity.class);
+        startActivity(intent);
     }
 }

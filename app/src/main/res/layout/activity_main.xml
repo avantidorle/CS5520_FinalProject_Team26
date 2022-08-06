@@ -41,6 +41,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btn_LeaveNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="158dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="127dp"
+        android:text="leave Note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btn_viewMessages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="99dp"
+        android:text="viewMessages"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_LeaveNote" />
+        
+    <Button
         android:id="@+id/leaderboard_label"
         android:layout_width="175dp"
         android:layout_height="47dp"
@@ -59,5 +83,6 @@
     <!--        android:text="Log out"-->
     <!--        tools:layout_editor_absoluteX="137dp"-->
     <!--        tools:layout_editor_absoluteY="171dp" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

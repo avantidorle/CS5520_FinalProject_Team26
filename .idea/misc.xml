@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_leave_note.xml" value="0.1" />
+        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_main.xml" value="0.121875" />
+        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_view_messages.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/layout.xml" value="0.17552083333333332" />
+        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/message_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/recepient_name_item.xml" value="0.14666666666666667" />
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/edit_text_style.xml" value="0.242" />
         <entry key="app/src/main/res/drawable/rank_style_user.xml" value="0.1525" />
