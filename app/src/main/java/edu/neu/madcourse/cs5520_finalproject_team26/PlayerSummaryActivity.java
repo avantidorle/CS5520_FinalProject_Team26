@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +18,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
+
 public class PlayerSummaryActivity extends AppCompatActivity {
     private TextView playerName;
     private TextView totalGeoCoins;
@@ -25,6 +28,7 @@ public class PlayerSummaryActivity extends AppCompatActivity {
     private TextView playerRank;
     private ImageView playerImage;
     private TextView visitedLocations;
+//    User user = FirebaseAuth.getInstance().getCurrentUser();
     private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
 
     DatabaseReference usersTable;
