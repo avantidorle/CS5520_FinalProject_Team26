@@ -39,7 +39,7 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
             holder.messageLocation.setText(message.getLocation());
             holder.messageTime.setText(message.getSentTime());
             if(!message.isSeen()){
-                holder.itemView.setBackgroundColor(Color.YELLOW);
+                holder.itemView.setBackgroundColor(Color.parseColor("#FBEF6F"));
             }
             Picasso.get().load(getUserProfilePic(message.getSenderId())).into(holder.userProfilePic);
     }
