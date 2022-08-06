@@ -6,13 +6,13 @@ public class Message {
     private String messageText;
     public String sentTime;
     public String location;
-    public String seen;
+    public boolean seen;
 
     public Message() {
         super();
     }
 
-    public Message(String senderId, String receiverId, String messageText, String sentTime, String location, String seen) {
+    public Message(String senderId, String receiverId, String messageText, String sentTime, String location, boolean seen) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.messageText = messageText;
@@ -61,11 +61,11 @@ public class Message {
         this.location = location;
     }
 
-//    public boolean isSeen() {
-//        return seen;
-//    }
-//
-//    public void setSeen(boolean seen) {
-//        this.seen = seen;
-//    }
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
 }

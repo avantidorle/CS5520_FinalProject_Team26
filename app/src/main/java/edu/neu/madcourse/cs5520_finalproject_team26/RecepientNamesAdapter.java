@@ -1,6 +1,7 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,14 @@ public class RecepientNamesAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private ArrayList<User> userArrayList;
     private List<User> userNamesList = null;
+    private List<User> userArrayList;
 
     public RecepientNamesAdapter(Context context, List<User> userArrayList) {
         mContext = context;
         inflater = LayoutInflater.from(mContext);
-        this.userArrayList = (ArrayList<User>) userArrayList;
-        this.userNamesList = userArrayList;
+        this.userNamesList = new ArrayList<>(userArrayList);
+        this.userArrayList = new ArrayList<>(userArrayList);
     }
 
     public class ViewHolder {
@@ -65,13 +66,16 @@ public class RecepientNamesAdapter extends BaseAdapter {
     }
 
     // Filter Class
-    public void filter(String charText) {
+    public void filter(String charText, ArrayList<User> users) {
         charText = charText.toLowerCase(Locale.getDefault());
+        Log.d("logging filter",charText);
         userNamesList.clear();
         if (charText.length() == 0) {
-            userNamesList.addAll(userArrayList);
+            userNamesList.addAll(users);
         } else {
-            for (User u : userArrayList) {
+            Log.d("logging filter", String.valueOf(users.size()));
+            for (User u : users) {
+                Log.d("logging filter",u.getUsername());
                 if (u.getUsername().toLowerCase(Locale.getDefault()).contains(charText)) {
                     userNamesList.add(u);
                 }

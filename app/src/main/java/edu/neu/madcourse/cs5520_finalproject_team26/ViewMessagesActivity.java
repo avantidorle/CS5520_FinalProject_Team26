@@ -42,7 +42,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
         messageAdapter = new MessageAdapter(this,messageArrayList,userArrayList);
         messageRecyclerView.setAdapter(messageAdapter);
         //TODO : get loggedInuser from Intent;
-        loggedInUserId = "e7328c89-392c-43c7-9bc8-fa07dc0cf833";
+        loggedInUserId = "dc9cca3d-0901-4031-abcd-04a625f2959e";
 
         userRecords = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
         userRecords.addValueEventListener(new ValueEventListener() {
@@ -52,10 +52,10 @@ public class ViewMessagesActivity extends AppCompatActivity {
                     User user = ds.getValue(User.class);
                     userArrayList.add(user);
                 }
-
                 messageRecords.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        messageArrayList.clear();
                         for(DataSnapshot ds: snapshot.getChildren()){
                             Message message = ds.getValue(Message.class);
                             assert message != null;

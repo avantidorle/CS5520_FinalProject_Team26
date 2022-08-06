@@ -1,6 +1,7 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,9 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
             holder.messageText.setText(message.getMessageText());
             holder.messageLocation.setText(message.getLocation());
             holder.messageTime.setText(message.getSentTime());
+            if(!message.isSeen()){
+                holder.itemView.setBackgroundColor(Color.YELLOW);
+            }
             Picasso.get().load(getUserProfilePic(message.getSenderId())).into(holder.userProfilePic);
     }
 
