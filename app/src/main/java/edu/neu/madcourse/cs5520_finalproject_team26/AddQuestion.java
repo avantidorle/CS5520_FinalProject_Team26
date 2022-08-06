@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,8 +27,8 @@ import edu.neu.madcourse.cs5520_finalproject_team26.models.Question;
 
 public class AddQuestion extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String CREATED_BY = "testUser";
-    private static final String ADDRESS = "1209 Boylston, Boston, MA";
+    private static final String CREATED_BY = "bd820e82-256a-4011-8fc9-6e3f92a3aaee";
+    private static final String ADDRESS = "Central Park";
 
     private Button addQuestion;
     private EditText questionText;
@@ -103,10 +101,10 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
     private void updateLocation(Question question) {
         Location location = new Location(ADDRESS, question.getQuestionId());
         final boolean[] found = {false};
-        databaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
+        DatabaseReference dbReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
                 .getReference("locations");
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
@@ -120,11 +118,11 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
                         }
                     }
                     if(!found[0]) {
-                        databaseReference.push().setValue(location);
+                        dbReference.push().setValue(location);
                     }
                 }
                 else {
-                    databaseReference.push().setValue(location);
+                    dbReference.push().setValue(location);
                 }
             }
 
