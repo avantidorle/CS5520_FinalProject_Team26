@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.neu.madcourse.cs5520_finalproject_team26">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,6 +27,18 @@
             android:name=".LeaveNoteActivity"
             android:exported="false" />
         <activity
+            android:name=".RegisterUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".PlayerSummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TriviaPageActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -28,6 +47,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AddQuestion"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".Leaderboard"
+            android:exported="false"/>
     </application>
 
 </manifest>

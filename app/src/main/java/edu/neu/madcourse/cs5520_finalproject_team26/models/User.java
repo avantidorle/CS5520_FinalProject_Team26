@@ -10,8 +10,7 @@ public class User {
     public User(){
         super();
     }
-
-    public User(String userId, String name, String email) {
+    public User(String userId,String name, String email) {
         this.userId = userId;
         this.emailId = email;
         this.username = name;
@@ -19,7 +18,7 @@ public class User {
         this.profilePic = "https://firebasestorage.googleapis.com/v0/b/mad-finalproject-team26.appspot.com/o/defaultProfileImage.jpg?alt=media&token=0943abc0-afed-4614-8c0e-7937f2dcb6ff";
     }
 
-    public String getUserId() {
+    public String getUserId(){
         return userId;
     }
 
