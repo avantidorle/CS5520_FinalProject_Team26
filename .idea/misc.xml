@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-    <component name="DesignSurface">
-        <option name="filePathToZoomLevelMap">
-            <map>
-                <entry key="../../../../../../../layout/custom_preview.xml" value="0.10461630695443645" />
-                <entry key="app/src/main/res/layout/activity_login.xml" value="0.17760416666666667" />
-                <entry key="app/src/main/res/layout/activity_main.xml" value="0.23931623931623933" />
-                <entry key="app/src/main/res/layout/activity_player_summary.xml" value="0.2585647583007813" />
-                <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.17760416666666667" />
-                <entry key="app/src/main/res/layout/activity_trivia_page.xml" value="0.3554018522563734" />
-            </map>
-        </option>
-    </component>
-    <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
-        <output url="file://$PROJECT_DIR$/build/classes" />
-    </component>
-    <component name="ProjectType">
-        <option name="id" value="Android" />
-    </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../../../layout/custom_preview.xml" value="0.10461630695443645" />
+        <entry key="app/src/main/res/drawable/like_icon_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.17760416666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23931623931623933" />
+        <entry key="app/src/main/res/layout/activity_no_questions.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/activity_no_questions_available.xml" value="0.13802083333333334" />
+        <entry key="app/src/main/res/layout/activity_player_summary.xml" value="0.2585647583007813" />
+        <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.17760416666666667" />
+        <entry key="app/src/main/res/layout/activity_trivia_page.xml" value="0.27475152266652964" />
+        <entry key="app/src/main/res/layout/no_questions_available_layout.xml" value="0.178125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
 </project>

@@ -30,6 +30,7 @@ public class PlayerSummaryActivity extends AppCompatActivity {
     private ImageView playerImage;
     private TextView visitedLocations;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String usrId = user.getUid();
     private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
 
     DatabaseReference usersTable;
