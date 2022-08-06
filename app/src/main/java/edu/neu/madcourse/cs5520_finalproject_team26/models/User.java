@@ -6,7 +6,7 @@ public class User {
     private String username;
     private int geoCoins;
     private String profilePic;
-
+    
     public User(String userId,String name, String email) {
         this.userId = userId;
         this.emailId = email;
