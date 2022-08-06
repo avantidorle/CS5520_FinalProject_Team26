@@ -12,4 +12,6 @@
     <string name="add_question">Add</string>
     <string name="leaderboard_title">Leaderboard</string>
     <string name="praise">Awesome! \nYou just earned a Geo-Coin!</string>
+    <string name="add_question_button_label">Add Question</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

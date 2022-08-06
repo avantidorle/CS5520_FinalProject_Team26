@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button triviaGamePage;
     Button playerSummaryPage;
+    Button leaderboard;
+    Button addQuestion;
     Button addDummyData;
 
     private DatabaseReference reference;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         triviaGamePage = findViewById(R.id.trivia_game_page_button);
         playerSummaryPage = findViewById(R.id.player_summary_button);
+        leaderboard = findViewById(R.id.leaderboard_label);
+        addQuestion = findViewById(R.id.add_question_label);
 
         triviaGamePage.setOnClickListener(v -> {
             Intent intent = new Intent(this, TriviaPageActivity.class);
@@ -40,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
 
         playerSummaryPage.setOnClickListener(v -> {
             Intent intent = new Intent(this, PlayerSummaryActivity.class);
+            startActivity(intent);
+        });
+
+        leaderboard.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Leaderboard.class);
+            startActivity(intent);
+        });
+
+        addQuestion.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddQuestion.class);
             startActivity(intent);
         });
 

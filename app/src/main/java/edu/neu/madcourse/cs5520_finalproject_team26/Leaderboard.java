@@ -43,7 +43,7 @@ class UserData {
 
 public class Leaderboard  extends AppCompatActivity implements View.OnClickListener  {
 
-    private final String USERID = "b4a1c3c8-9e61-40ee-afd2-d6f3cfbbceb8";
+    private final String USERID = "bf611ba3-2f9c-4889-896f-1d1b465ee817";
 
     private ImageView firstPositionAvatar;
     private ImageView secondPositionAvatar;

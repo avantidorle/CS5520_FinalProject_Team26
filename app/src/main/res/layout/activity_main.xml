@@ -29,14 +29,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <Button-->
-<!--<<<<<<< HEAD-->
-<!--        android:id="@+id/logoutButtonId"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:onClick="logOutClick"-->
-<!--        android:text="Log out"-->
-<!--        tools:layout_editor_absoluteX="137dp"-->
-<!--        tools:layout_editor_absoluteY="171dp" />-->
+    <Button
+        android:id="@+id/add_question_label"
+        android:layout_width="171dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="164dp"
+        android:text="@string/add_question_button_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/leaderboard_label"
+        android:layout_width="175dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="236dp"
+        android:text="@string/leaderboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/logoutButtonId"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:onClick="logOutClick"-->
+    <!--        android:text="Log out"-->
+    <!--        tools:layout_editor_absoluteX="137dp"-->
+    <!--        tools:layout_editor_absoluteY="171dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
