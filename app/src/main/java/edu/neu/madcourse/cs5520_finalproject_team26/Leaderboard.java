@@ -3,24 +3,22 @@ package edu.neu.madcourse.cs5520_finalproject_team26;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.snapshot.StringNode;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,21 +27,10 @@ import java.util.Objects;
 
 import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
 
-class UserData {
-    String userId;
-    String userName;
-    int geoCoins;
-    UserData(String userId, String userName, int geoCoins) {
-        this.geoCoins = geoCoins;
-        this.userId = userId;
-        this.userName = userName;
-    }
-}
-
 
 public class Leaderboard  extends AppCompatActivity implements View.OnClickListener  {
 
-    private final String USERID = "bf611ba3-2f9c-4889-896f-1d1b465ee817";
+    private String USERID = "";
 
     private ImageView firstPositionAvatar;
     private ImageView secondPositionAvatar;
@@ -66,6 +53,7 @@ public class Leaderboard  extends AppCompatActivity implements View.OnClickListe
 
 
     private DatabaseReference dbReference;
+    private DatabaseReference userDatabaseReference;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,11 +78,32 @@ public class Leaderboard  extends AppCompatActivity implements View.OnClickListe
         secondPositionAvatar = findViewById(R.id.second_position_avatar);
         thirdPositionAvatar = findViewById(R.id.third_position_avatar);
 
+        getLoggedinUser();
         showOtherRanks();
     }
 
+
+    private void getLoggedinUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+            userDatabaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
+                    .getReference("users").child(user.getUid());
+            userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    USERID = Objects.requireNonNull(snapshot.child("userId").getValue()).toString();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
     private void showOtherRanks() {
-        List<UserData> list = new ArrayList();
+        List<User> list = new ArrayList();
 
         dbReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
                 .getReference("users");
@@ -105,9 +114,7 @@ public class Leaderboard  extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     for (DataSnapshot snap: snapshot.getChildren()) {
-                        UserData data = new UserData(snap.child("userId").getValue().toString(),
-                                snap.child("username").getValue().toString(),
-                                Integer.parseInt(snap.child("geoCoins").getValue().toString()));
+                        User data = snap.getValue(User.class);
                         list.add(data);
                     }
 
@@ -118,12 +125,12 @@ public class Leaderboard  extends AppCompatActivity implements View.OnClickListe
             }
 
             @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-            private void createRankList(List<UserData> list) {
+            private void createRankList(List<User> list) {
 
                 int currentRank = -1;
 
                 for(int i = 0; i < list.size(); i++) {
-                    if(USERID.equals(list.get(i).userId)) {
+                    if(USERID.equals(list.get(i).getUserId())) {
                         currentRank = i;
                         break;
                     }
@@ -168,54 +175,62 @@ public class Leaderboard  extends AppCompatActivity implements View.OnClickListe
             }
 
             @SuppressLint("SetTextI18n")
-            private void updateTopRank(List<UserData> list) {
-                rank6.setText("6 : "+list.get(5).userName);
-                geocoins6.setText(String.valueOf(list.get(5).geoCoins));
+            private void updateTopRank(List<User> list) {
+                rank6.setText("6 : "+list.get(5).getUsername());
+                geocoins6.setText(String.valueOf(list.get(5).getGeoCoins()));
 
-                rank7.setText("7 : "+list.get(6).userName);
-                geocoins7.setText(String.valueOf(list.get(6).geoCoins));
+                rank7.setText("7 : "+list.get(6).getUsername());
+                geocoins7.setText(String.valueOf(list.get(6).getGeoCoins()));
 
-                rank8.setText("8 : "+list.get(7).userName);
-                geocoins8.setText(String.valueOf(list.get(7).geoCoins));
+                rank8.setText("8 : "+list.get(7).getUsername());
+                geocoins8.setText(String.valueOf(list.get(7).getGeoCoins()));
             }
 
             @SuppressLint("SetTextI18n")
-            private void updateLaterRank(List<UserData> list, int currentRank) {
-                rank6.setText("6 : "+list.get(5).userName);
-                geocoins6.setText(String.valueOf(list.get(5).geoCoins));
+            private void updateLaterRank(List<User> list, int currentRank) {
+                rank6.setText("6 : "+list.get(5).getUsername());
+                geocoins6.setText(String.valueOf(list.get(5).getGeoCoins()));
 
-                rank7.setText(currentRank+" : "+list.get(currentRank-1).userName);
-                geocoins7.setText(String.valueOf(list.get(currentRank-1).geoCoins));
+                rank7.setText(currentRank+" : "+list.get(currentRank-1).getUsername());
+                geocoins7.setText(String.valueOf(list.get(currentRank-1).getGeoCoins()));
 
-                rank8.setText(currentRank+1+" : "+list.get(currentRank).userName);
-                geocoins8.setText(String.valueOf(list.get(currentRank).geoCoins));
+                rank8.setText(currentRank+1+" : "+list.get(currentRank).getUsername());
+                geocoins8.setText(String.valueOf(list.get(currentRank).getGeoCoins()));
             }
 
             @SuppressLint("SetTextI18n")
-            private void updateLaterRankLast(List<UserData> list, int currentRank) {
-                rank6.setText(currentRank+" : "+list.get(currentRank-1).userName);
-                geocoins6.setText(String.valueOf(list.get(currentRank-1).geoCoins));
+            private void updateLaterRankLast(List<User> list, int currentRank) {
+                rank6.setText(currentRank+" : "+list.get(currentRank-1).getUsername());
+                geocoins6.setText(String.valueOf(list.get(currentRank-1).getGeoCoins()));
 
-                rank7.setText(currentRank+1+" : "+list.get(currentRank).userName);
-                geocoins7.setText(String.valueOf(list.get(currentRank).geoCoins));
+                rank7.setText(currentRank+1+" : "+list.get(currentRank).getUsername());
+                geocoins7.setText(String.valueOf(list.get(currentRank).getGeoCoins()));
 
-                rank8.setText(currentRank+2+" : "+list.get(currentRank+1).userName);
-                geocoins8.setText(String.valueOf(list.get(currentRank+1).geoCoins));
+                rank8.setText(currentRank+2+" : "+list.get(currentRank+1).getUsername());
+                geocoins8.setText(String.valueOf(list.get(currentRank+1).getGeoCoins()));
 
             }
 
             @SuppressLint("SetTextI18n")
-            private void updateFirstFive(List<UserData> list) {
+            private void updateFirstFive(List<User> list) {
 
-                firstPositionText.setText(list.get(0).userName);
-                secondPositionText.setText(list.get(1).userName);
-                thirdPositionText.setText(list.get(2).userName);
+                firstPositionText.setText(list.get(0).getUsername());
+                Picasso.get().load(list.get(0).getProfilePic())
+                        .into(firstPositionAvatar);
 
-                rank4.setText("4 : "+list.get(3).userName);
-                geocoins4.setText(String.valueOf(list.get(3).geoCoins));
+                secondPositionText.setText(list.get(1).getUsername());
+                Picasso.get().load(list.get(1).getProfilePic())
+                        .into(secondPositionAvatar);
 
-                rank5.setText("5 : "+list.get(4).userName);
-                geocoins5.setText(String.valueOf(list.get(4).geoCoins));
+                thirdPositionText.setText(list.get(2).getUsername());
+                Picasso.get().load(list.get(2).getProfilePic())
+                        .into(thirdPositionAvatar);
+
+                rank4.setText("4 : "+list.get(3).getUsername());
+                geocoins4.setText(String.valueOf(list.get(3).getGeoCoins()));
+
+                rank5.setText("5 : "+list.get(4).getUsername());
+                geocoins5.setText(String.valueOf(list.get(4).getGeoCoins()));
             }
 
             @Override
