@@ -8,6 +8,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -185,12 +186,13 @@ public class TriviaPageActivity extends AppCompatActivity {
                         iterator = 0;
                         for (DataSnapshot qid: ds.child("questions").getChildren()) {
                             if (qid.exists()) {
-                                iterator++;
+
                                 String usrIdQuestionId = loggedInUserUserId + " " + qid.getValue().toString();
                                 Query userIdQuestionIdPair = questionUserTable.orderByChild("userIdAndQuestionId").equalTo(usrIdQuestionId);
                                 userIdQuestionIdPair.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot userIdQuestionIdPairSnapshot) {
+                                        iterator++;
                                         if(!userIdQuestionIdPairSnapshot.exists()) {
                                             String usrId = loggedInUserUserId;
                                             String qId = qid.getValue().toString();
@@ -201,6 +203,9 @@ public class TriviaPageActivity extends AppCompatActivity {
                                             String loc = currentPlayerLocation.getText().toString();
                                             QuestionUser questionUser = new QuestionUser(usrId, qId, vote, ans, usrIdQuesId, usrIdNLocAns, loc);
                                             questionUserTable.push().setValue(questionUser);
+                                        }
+                                        if (iterator == ds.child("questions").getChildrenCount()) {
+                                            setQuestion();
                                         }
                                     }
 
@@ -260,7 +265,7 @@ public class TriviaPageActivity extends AppCompatActivity {
             }
         });
 
-        setQuestion();
+//        setQuestion();
 
     }
 
@@ -329,6 +334,10 @@ public class TriviaPageActivity extends AppCompatActivity {
                                                 option2.setEnabled(true);
                                                 option3.setEnabled(true);
                                                 option4.setEnabled(true);
+                                                option1.setBackgroundColor(Color.parseColor("#fff8e3"));
+                                                option2.setBackgroundColor(Color.parseColor("#fff8e3"));
+                                                option3.setBackgroundColor(Color.parseColor("#fff8e3"));
+                                                option4.setBackgroundColor(Color.parseColor("#fff8e3"));
                                                 nextQuestion.setEnabled(false);
 
 
@@ -418,7 +427,15 @@ public class TriviaPageActivity extends AppCompatActivity {
         nextQuestion.setEnabled(true);
         questionAnsweredCorrectlyByPlayer = false;
         if (selectedAnswer.equals(presentQuestionAnswer)) {
-            Toast.makeText(getBaseContext(), "CORRECT!!", Toast.LENGTH_SHORT).show();
+            if (selectedAnswer.equals("0")) {
+                option1.setBackgroundColor(Color.parseColor("#d6f78d"));
+            } else if (selectedAnswer.equals("1")) {
+                option2.setBackgroundColor(Color.parseColor("#d6f78d"));
+            } else if (selectedAnswer.equals("2")) {
+                option3.setBackgroundColor(Color.parseColor("#d6f78d"));
+            } else if (selectedAnswer.equals("3")) {
+                option4.setBackgroundColor(Color.parseColor("#d6f78d"));
+            }
             questionAnsweredCorrectlyByPlayer = true;
             usersTable.orderByChild("userId").equalTo(loggedInUserUserId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -441,7 +458,15 @@ public class TriviaPageActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(getBaseContext(), "INCORRECT!!!", Toast.LENGTH_SHORT).show();
+            if (selectedAnswer.equals("0")) {
+                option1.setBackgroundColor(Color.parseColor("#ffb9b3"));
+            } else if (selectedAnswer.equals("1")) {
+                option2.setBackgroundColor(Color.parseColor("#ffb9b3"));
+            } else if (selectedAnswer.equals("2")) {
+                option3.setBackgroundColor(Color.parseColor("#ffb9b3"));
+            } else if (selectedAnswer.equals("3")) {
+                option4.setBackgroundColor(Color.parseColor("#ffb9b3"));
+            }
             questionAnsweredCorrectlyByPlayer = false;
         }
 

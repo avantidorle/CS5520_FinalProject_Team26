@@ -96,7 +96,7 @@
 
                 <RadioButton
                     android:id="@+id/option1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="55dp"
                     android:checked="false"
                     android:text="OPTION 1"
@@ -105,7 +105,7 @@
 
                 <RadioButton
                     android:id="@+id/option2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.13"
                     android:checked="false"
@@ -115,7 +115,7 @@
 
                 <RadioButton
                     android:id="@+id/option3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.13"
                     android:checked="false"
@@ -125,7 +125,7 @@
 
                 <RadioButton
                     android:id="@+id/option4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.13"
                     android:checked="false"
