@@ -24,11 +24,13 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
     Context context;
     ArrayList<Message> messagesList;
     ArrayList<User> usersList;
+    MessagesInterface messageListener;
 
-    public MessageAdapter(Context context, ArrayList<Message> messagesList,ArrayList<User> usersList) {
+    public MessageAdapter(Context context, MessagesInterface msgListener,ArrayList<Message> messagesList,ArrayList<User> usersList) {
         this.context = context;
         this.messagesList = messagesList;
         this.usersList = usersList;
+        this.messageListener = msgListener;
     }
 
     @Override
@@ -42,6 +44,12 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
                 holder.itemView.setBackgroundColor(Color.parseColor("#FBEF6F"));
             }
             Picasso.get().load(getUserProfilePic(message.getSenderId())).into(holder.userProfilePic);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    messageListener.onItemClicked(messagesList.get(position));
+                }
+            });
     }
 
     private String getSenderName(String senderId) {
@@ -95,6 +103,10 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
     }
 
 
+
+    public interface MessagesInterface{
+        void onItemClicked(Message message);
+    }
 }
 
 

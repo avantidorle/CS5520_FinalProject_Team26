@@ -1,21 +1,15 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.UUID;
-
-import edu.neu.madcourse.cs5520_finalproject_team26.models.QuestionUser;
-import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
 
 public class  MainActivity extends AppCompatActivity {
 
@@ -59,8 +53,10 @@ public class  MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-
+        viewMessages = findViewById(R.id.btn_viewMessages);
+        viewMessages.setOnClickListener(v -> openViewMessagesActivity());
+        leaveNote = findViewById(R.id.btn_LeaveNote);
+        leaveNote.setOnClickListener(v -> openLeaveNoteActivity());
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();

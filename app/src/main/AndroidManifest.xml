@@ -21,6 +21,9 @@
         android:theme="@style/Theme.CS5520_FinalProject_Team26"
         tools:targetApi="31">
         <activity
+            android:name=".ShowMessageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewMessagesActivity"
             android:exported="false" />
         <activity
@@ -31,7 +34,7 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".PlayerSummaryActivity"
             android:exported="false" />
@@ -50,10 +53,10 @@
         <activity
             android:name=".AddQuestion"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Leaderboard"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
