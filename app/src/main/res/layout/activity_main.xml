@@ -6,22 +6,125 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/logoutButtonId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="logOutClick"
         android:text="Log out"
-        tools:layout_editor_absoluteX="137dp"
-        tools:layout_editor_absoluteY="171dp" />
+        tools:layout_editor_absoluteX="136dp"
+        tools:layout_editor_absoluteY="90dp" />
+
+    <TextView
+        android:id="@+id/startGameId"
+        android:layout_width="164dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="72dp"
+        android:background="#94F5F7F8"
+        android:onClick="startGameClick"
+        android:text="Start Game"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameTitleId" />
+
+    <TextView
+        android:id="@+id/addTriviaQuestionId"
+        android:layout_width="212dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="107dp"
+        android:onClick="addTriviaQuestionClick"
+        android:text="Add Trivia Question"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startGameId" />
+
+    <TextView
+        android:id="@+id/leaveAMessageID"
+        android:layout_width="199dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="96dp"
+        android:onClick="leaveAMessageClick"
+        android:text="Leave a Message"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addTriviaQuestionId" />
+
+    <TextView
+        android:id="@+id/locationDisplayHomeScreenId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="73dp" />
+
+    <TextView
+        android:id="@+id/locationLabelHomeScreenId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Location"
+        app:layout_constraintBottom_toTopOf="@+id/locationDisplayHomeScreenId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/leaderBoardHomeScreenId"
+        android:layout_width="56dp"
+        android:layout_height="60dp"
+        android:clickable="true"
+        android:onClick="leaderBoardClick"
+        app:backgroundTint="#9C27B0"
+        app:layout_constraintBottom_toTopOf="@+id/locationLabelHomeScreenId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaveAMessageID"
+        app:srcCompat="@drawable/ic_leaderboard" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/viewMessagesHomeScreenId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="viewMessagesClick"
+        app:backgroundTint="#9C27B0"
+        app:layout_constraintBottom_toTopOf="@+id/locationLabelHomeScreenId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaveAMessageID"
+        app:srcCompat="@drawable/ic_messages_landingscreen" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/profileHomeScreenId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="profilePageClick"
+        app:backgroundTint="#9C27B0"
+        app:layout_constraintBottom_toTopOf="@+id/locationLabelHomeScreenId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaveAMessageID"
+        app:srcCompat="@drawable/ic_profile_landingscreen" />
+
+    <TextView
+        android:id="@+id/gameTitleId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Geo Trophy"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#9C27B0"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="121dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
