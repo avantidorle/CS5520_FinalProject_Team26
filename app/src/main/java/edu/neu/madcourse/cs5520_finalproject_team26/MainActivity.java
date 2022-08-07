@@ -1,5 +1,6 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -14,6 +15,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,8 +26,11 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,7 +42,6 @@ import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference reference;
-
     private FirebaseAuth auth;
     private Geocoder geocoder;
     private TextView locationDisplay;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private FusedLocationProviderClient mFusedLocationClient;
+    private String address;
     private double distanceTravelled = 0.0f;
 
 
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         longitudeValue = location.getLongitude();
                         geocoder = new Geocoder(this, Locale.getDefault());
                         addresses = geocoder.getFromLocation(latitudeValue, longitudeValue, 1);
-                        String address = addresses.get(0).getAddressLine(0);
+                        address = addresses.get(0).getAddressLine(0);
                         locationDisplay.setText(address);
 
 
@@ -118,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                             longitudeValue = location.getLongitude();
                             geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                             addresses = geocoder.getFromLocation(latitudeValue, longitudeValue, 1);
-                            String address = addresses.get(0).getAddressLine(0);
+                            address = addresses.get(0).getAddressLine(0);
                             locationDisplay.setText(address);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -149,11 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void locationDisplayHelper() {
-
-    }
-
     public void logOutClick(View view) {
 
         FirebaseAuth.getInstance().signOut();
@@ -162,12 +162,57 @@ public class MainActivity extends AppCompatActivity {
 
     public void startGameClick(View view) {
         Intent intent = new Intent(this, TriviaPageActivity.class);
-        startActivity(intent);
+        intent.putExtra("address",address);
+        FirebaseUser user = auth.getInstance().getCurrentUser();
+        String loggedInUserID = user.getUid();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.child(loggedInUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userDetails = snapshot.getValue(User.class);
+                if (userDetails != null) {
+                    String userId = userDetails.getUserId();
+                    intent.putExtra("loggedInUserID", userId);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.v("Passing user id in intent", "Couldn't pass user id in add trivia question page");
+
+            }
+        });
+
     }
 
     public void addTriviaQuestionClick(View view) {
         Intent intent =  new Intent(this, AddQuestion.class);
-        startActivity(intent);
+        intent.putExtra("address",address);
+        FirebaseUser user = auth.getInstance().getCurrentUser();
+        String loggedInUserID = user.getUid();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.child(loggedInUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userDetails = snapshot.getValue(User.class);
+                if (userDetails != null) {
+                    String userId = userDetails.getUserId();
+                    intent.putExtra("loggedInUserID", userId);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.v("Passing user id in intent", "Couldn't pass user id in add trivia question page");
+
+            }
+        });
+
+
     }
 
     public void leaveAMessageClick(View view) {
