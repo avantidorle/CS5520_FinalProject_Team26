@@ -1,6 +1,7 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -9,6 +10,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,6 +18,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -91,6 +95,17 @@ public class TriviaPageActivity extends AppCompatActivity {
                     new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(gfgPolicy);
         }
+
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#b89928"));
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#b89928"));
+
+        actionBar.setBackgroundDrawable(colorDrawable);
 
         // CONTINUOUS LOCATION UPDATES
         currentPlayerLocation = findViewById(R.id.location_trivia_page);
@@ -292,8 +307,8 @@ public class TriviaPageActivity extends AppCompatActivity {
 
     public void setQuestion() {
         radioGroup.clearCheck();
-        likeIcon.setImageResource(R.mipmap.heart_unfilled_foreground);
-        dislikeIcon.setImageResource(R.mipmap.dislike_icon_foreground);
+        likeIcon.setImageResource(R.mipmap.heart_unfilled_round);
+        dislikeIcon.setImageResource(R.mipmap.dislike_icon_round);
         questionAnsweredCorrectlyByPlayer = false;
         locationTable =  FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("locations");
         questionsTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questions");
@@ -380,10 +395,10 @@ public class TriviaPageActivity extends AppCompatActivity {
                                                         likeIcon = findViewById(R.id.receivedMessage_pn);
                                                         if (vote.equals("liked")) {
                                                             likeIcon = findViewById(R.id.receivedMessage_pn);
-                                                            likeIcon.setImageResource(R.mipmap.like_icon_foreground);
+                                                            likeIcon.setImageResource(R.mipmap.like_icon_round);
                                                         } else {
                                                             dislikeIcon = findViewById(R.id.sentMessage_pn);
-                                                            dislikeIcon.setImageResource(R.mipmap.dislike_filled_foreground);
+                                                            dislikeIcon.setImageResource(R.mipmap.dislike_filled_round);
                                                         }
                                                     }
                                                     break;
@@ -561,7 +576,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                             questionsTable.child(key).child("upVotes").setValue(newLikesCount);
                             upVotes.setText(String.valueOf(newLikesCount));
                             likeIcon = findViewById(R.id.receivedMessage_pn);
-                            likeIcon.setImageResource(R.mipmap.like_icon_foreground);
+                            likeIcon.setImageResource(R.mipmap.like_icon_round);
                             String usrId = loggedInUserUserId;
                             String qId = presentQuestionId;
                             String vote = "liked";
@@ -665,7 +680,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                             questionsTable.child(key).child("downVotes").setValue(newDisLikesCount);
                             downVotes.setText(String.valueOf(newDisLikesCount));
                             dislikeIcon = findViewById(R.id.sentMessage_pn);
-                            dislikeIcon.setImageResource(R.mipmap.dislike_filled_foreground);
+                            dislikeIcon.setImageResource(R.mipmap.dislike_filled_round);
                             String usrId = loggedInUserUserId;
                             String qId = presentQuestionId;
                             String vote = "disliked";

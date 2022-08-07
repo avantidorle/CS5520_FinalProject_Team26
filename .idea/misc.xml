@@ -3,9 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-
         <entry key="../../../../../../../layout/custom_preview.xml" value="0.10461630695443645" />
         <entry key="app/src/main/res/drawable/like_icon_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_add_questions.xml" value="0.10729166666666666" />
         <entry key="app/src/main/res/layout/activity_edit_player_profile.xml" value="0.18666666666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.17760416666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -13,7 +13,7 @@
         <entry key="app/src/main/res/layout/activity_no_questions_available.xml" value="0.13802083333333334" />
         <entry key="app/src/main/res/layout/activity_player_summary.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.17760416666666667" />
-        <entry key="app/src/main/res/layout/activity_trivia_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_trivia_page.xml" value="0.16485595703125" />
         <entry key="app/src/main/res/layout/no_questions_available_layout.xml" value="0.178125" />
       </map>
     </option>
