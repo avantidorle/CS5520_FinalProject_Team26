@@ -1,6 +1,8 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,8 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +31,8 @@ import edu.neu.madcourse.cs5520_finalproject_team26.models.Question;
 
 public class AddQuestion extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String CREATED_BY = "bd820e82-256a-4011-8fc9-6e3f92a3aaee";
-    private static final String ADDRESS = "Central Park";
+    private static String CREATED_BY = "";
+    private static String ADDRESS = "";
 
     private Button addQuestion;
     private EditText questionText;
@@ -39,6 +43,8 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
     private EditText hint;
     private Spinner answer;
     private DatabaseReference databaseReference;
+    private DatabaseReference userDatabaseReference;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +59,28 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
         answer = findViewById(R.id.options_spinner);
         addQuestion = findViewById(R.id.add_question_button);
 
+        getLoggedinUser();
+        ADDRESS = getIntent().getStringExtra("address");
         addQuestion.setOnClickListener(this);
+    }
 
+    private void getLoggedinUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null) {
+           userDatabaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
+                   .getReference("users").child(user.getUid());
+           userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot snapshot) {
+                   CREATED_BY = Objects.requireNonNull(snapshot.child("userId").getValue()).toString();
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError error) {
+
+               }
+           });
+       }
     }
 
     @Override
@@ -78,9 +104,25 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
                 databaseReference.push().setValue(question);
 
                 updateLocation(question);
+                updateGeoCoins();
                 showPopUp();
 
                 clearInputs();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void updateGeoCoins() {
+        userDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int geoCoin = Integer.parseInt(snapshot.child("geoCoins").getValue().toString());
+                snapshot.child("geoCoins").getRef().setValue(geoCoin + 1);
             }
 
             @Override
@@ -95,6 +137,12 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
         //TODO add geocoin to user
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.custompopup);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                startActivity(new Intent(AddQuestion.this, MainActivity.class));
+            }
+        });
         dialog.show();
     }
 

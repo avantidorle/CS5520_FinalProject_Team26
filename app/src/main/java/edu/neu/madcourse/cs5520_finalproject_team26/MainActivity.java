@@ -176,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void leaderBoardClick(View view) {
+        Intent intent = new Intent(this, Leaderboard.class);
+        startActivity(intent);
     }
 
     public void viewMessagesClick(View view) {
