@@ -28,6 +28,13 @@
             android:exported="false" />
         <activity
             android:name=".LeaveNoteActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".EditPlayerProfile"
+            android:exported="false" />
+        <activity
+            android:name=".NoQuestions"
             android:exported="false" />
         <activity
             android:name=".RegisterUserActivity"

@@ -3,14 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_leaderboard.xml" value="0.1" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_leave_note.xml" value="0.1" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_main.xml" value="0.121875" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_show_message.xml" value="0.16666666666666666" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_view_messages.xml" value="0.14666666666666667" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/layout.xml" value="0.17552083333333332" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/message_item.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/rishi/OneDrive/Desktop/MAD_Project/CS5520_FinalProject_Team26/app/src/main/res/layout/recepient_name_item.xml" value="0.14666666666666667" />
+
+        <entry key="../../../../../../../layout/custom_preview.xml" value="0.10461630695443645" />
+        <entry key="app/src/main/res/drawable/like_icon_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_edit_player_profile.xml" value="0.18666666666666668" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.17760416666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_no_questions.xml" value="0.19479166666666667" />
+        <entry key="app/src/main/res/layout/activity_no_questions_available.xml" value="0.13802083333333334" />
+        <entry key="app/src/main/res/layout/activity_player_summary.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_register_user.xml" value="0.17760416666666667" />
+        <entry key="app/src/main/res/layout/activity_trivia_page.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/no_questions_available_layout.xml" value="0.178125" />
       </map>
     </option>
   </component>

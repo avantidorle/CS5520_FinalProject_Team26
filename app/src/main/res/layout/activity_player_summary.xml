@@ -70,10 +70,10 @@
             <TextView
                 android:id="@+id/geoCoinText"
                 android:layout_width="match_parent"
-                android:textAlignment="center"
                 android:layout_height="40dp"
                 android:text="GEOCOINS"
-                android:textSize="25dp"/>
+                android:textAlignment="center"
+                android:textSize="25dp" />
 
             <TextView
                 android:id="@+id/totalGeoCoins"
@@ -146,7 +146,7 @@
     </ScrollView>
 
     <ImageView
-        android:id="@+id/playerImage"
+        android:id="@+id/playerProfileImageView"
         android:layout_width="118dp"
         android:layout_height="104dp"
         android:layout_marginTop="12dp"
@@ -154,4 +154,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/editProfile"
+        android:layout_width="117dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="116dp"
+        android:text="Edit Profile"
+        android:textAlignment="center"
+        android:textColor="@color/teal_200"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
