@@ -3,6 +3,7 @@ package edu.neu.madcourse.cs5520_finalproject_team26;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +20,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
-
 public class PlayerSummaryActivity extends AppCompatActivity {
     private TextView playerName;
     private TextView totalGeoCoins;
@@ -29,6 +28,7 @@ public class PlayerSummaryActivity extends AppCompatActivity {
     private TextView playerRank;
     private ImageView playerImage;
     private TextView visitedLocations;
+    private TextView editProfile;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String usrId = user.getUid();
     private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
@@ -50,7 +50,8 @@ public class PlayerSummaryActivity extends AppCompatActivity {
         playerName = findViewById(R.id.playerName);
         totalGeoCoins = findViewById(R.id.totalGeoCoins);
         totalQuestionsContributedCount = findViewById(R.id.totalQuestionsContributedCount);
-        playerImage = findViewById(R.id.playerImage);
+        playerImage = findViewById(R.id.playerProfileImageView);
+        editProfile = findViewById(R.id.editProfile);
         usersTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
         questionsTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("questions");
         Query presentUser = usersTable.orderByChild("userId").equalTo(loggedInUserUserId);
@@ -163,6 +164,12 @@ public class PlayerSummaryActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+        });
+
+        editProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditPlayerProfile.class);
+            intent.putExtra("loggedInUserUserId", loggedInUserUserId);
+            startActivity(intent);
         });
     }
 }
