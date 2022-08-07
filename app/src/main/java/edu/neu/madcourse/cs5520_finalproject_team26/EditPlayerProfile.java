@@ -42,6 +42,7 @@ public class EditPlayerProfile extends AppCompatActivity {
     ProgressBar progressBar;
     Uri imageURI;
     StorageReference reference = FirebaseStorage.getInstance().getReference();
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +88,14 @@ public class EditPlayerProfile extends AppCompatActivity {
 
 
         saveProfileDetails.setOnClickListener(v -> {
-
+            intent = new Intent(this, PlayerSummaryActivity.class);
+            String playerName = playerUserName.getText().toString();
+            if (!playerName.equals("") && imageURI == null) {
+                usersTable.child(presentUserKey).child("username").setValue(playerName);
+                startActivity(intent);
+            }
             if (imageURI != null) {
                 uploadToFirebase(imageURI);
-            } else {
-                Toast.makeText(getBaseContext(), "Error in saving", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -115,8 +119,15 @@ public class EditPlayerProfile extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+                        usersTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
+//                        usersTable.child(presentUserKey).child("profilePic").setValue(uri.toString());
                         progressBar.setVisibility(View.INVISIBLE);
+                        String playerName = playerUserName.getText().toString();
+                        if (!playerName.equals("")) {
+                            usersTable.child(presentUserKey).child("username").setValue(playerName);
+                            startActivity(intent);
+                        }
+                        startActivity(intent);
                     }
                 });
             }
@@ -129,7 +140,7 @@ public class EditPlayerProfile extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getBaseContext(), "Uploading failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Image upload failed", Toast.LENGTH_LONG).show();
             }
         });
     }
