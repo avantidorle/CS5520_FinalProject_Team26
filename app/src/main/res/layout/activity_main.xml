@@ -13,7 +13,8 @@
         android:onClick="logOutClick"
         android:text="Log out"
         tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="90dp" />
+        tools:layout_editor_absoluteY="90dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/startGameId"

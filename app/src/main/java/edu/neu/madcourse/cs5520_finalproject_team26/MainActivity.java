@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGameClick(View view) {
+        Intent intent = new Intent(this, TriviaPageActivity.class);
+        startActivity(intent);
     }
 
     public void addTriviaQuestionClick(View view) {
@@ -176,5 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void profilePageClick(View view) {
+        Intent intent = new Intent(this, PlayerSummaryActivity.class);
+        startActivity(intent);
     }
 }

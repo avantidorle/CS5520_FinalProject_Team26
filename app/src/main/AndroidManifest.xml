@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,10 +21,19 @@
         android:theme="@style/Theme.CS5520_FinalProject_Team26"
         tools:targetApi="31">
         <activity
+            android:name=".NoQuestions"
+            android:exported="false" />
+        <activity
             android:name=".RegisterUserActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlayerSummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TriviaPageActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
