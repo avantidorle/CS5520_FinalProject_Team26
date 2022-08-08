@@ -74,7 +74,8 @@ public class TriviaPageActivity extends AppCompatActivity {
     private DatabaseReference locationTable;
     private DatabaseReference questionsTable;
     private DatabaseReference questionUserTable;
-    private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
+    private String loggedInUserUserId = "";
+    private String address = "";
     int randomNumber = 0;
     int questionIterator = 0;
     String presentQuestionId = "";
@@ -95,6 +96,8 @@ public class TriviaPageActivity extends AppCompatActivity {
                     new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(gfgPolicy);
         }
+        loggedInUserUserId = getIntent().getStringExtra("loggedInUserID");
+        address = getIntent().getStringExtra("address");
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -187,7 +190,7 @@ public class TriviaPageActivity extends AppCompatActivity {
         } */
 
 
-        currentPlayerLocation.setText("Central Park");
+        currentPlayerLocation.setText(address);
 
         // add a record in the question user table only if it does nor exist
         locationTable =  FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("locations");

@@ -119,15 +119,7 @@ public class EditPlayerProfile extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        usersTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
-//                        usersTable.child(presentUserKey).child("profilePic").setValue(uri.toString());
-                        progressBar.setVisibility(View.INVISIBLE);
-                        String playerName = playerUserName.getText().toString();
-                        if (!playerName.equals("")) {
-                            usersTable.child(presentUserKey).child("username").setValue(playerName);
-                            startActivity(intent);
-                        }
-                        startActivity(intent);
+
                     }
                 });
             }

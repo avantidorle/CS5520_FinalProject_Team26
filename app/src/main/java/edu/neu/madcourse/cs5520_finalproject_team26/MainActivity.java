@@ -232,6 +232,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void profilePageClick(View view) {
         Intent intent = new Intent(this, PlayerSummaryActivity.class);
-        startActivity(intent);
+        FirebaseUser user = auth.getInstance().getCurrentUser();
+        String loggedInUserID = user.getUid();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.child(loggedInUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userDetails = snapshot.getValue(User.class);
+                if (userDetails != null) {
+                    String userId = userDetails.getUserId();
+                    intent.putExtra("loggedInUserID", userId);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.v("Passing user id in intent", "Couldn't pass user id in add trivia question page");
+
+            }
+        });
     }
 }
