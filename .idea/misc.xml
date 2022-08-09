@@ -3,8 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-
         <entry key="../../../../../../../layout/custom_preview.xml" value="0.10461630695443645" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_add_questions.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_leave_note.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_login.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_no_questions.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_player_summary.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_register_user.xml" value="0.1" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_show_message.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_trivia_page.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/activity_view_messages.xml" value="0.23550724637681159" />
+        <entry key="..\:/Users/kvive/Documents/CS5520 MAD/Final project/CS5520_FinalProject_Team26/app/src/main/res/layout/custompopup.xml" value="0.23550724637681159" />
         <entry key="app/src/main/res/drawable/like_icon_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_edit_player_profile.xml" value="0.18666666666666668" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.17760416666666667" />
