@@ -13,17 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".MainActivity">
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <Button
+        <TextView
             android:id="@+id/logoutButtonId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="logOutClick"
             android:text="Log out"
+            android:textSize="20dp"
+            android:paddingLeft="3dp"
+            android:paddingTop="3dp"
+            android:textColor="#b89928"
             tools:layout_editor_absoluteX="136dp"
             tools:layout_editor_absoluteY="90dp"
             tools:ignore="MissingConstraints" />
@@ -38,7 +41,8 @@
             android:paddingVertical="5dp"
             android:text="Start Game"
             android:textAlignment="center"
-            android:textColor="#9C27B0"
+
+            android:textColor="#b89928"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gameTitleId" />
@@ -53,7 +57,7 @@
             android:paddingVertical="5dp"
             android:text="Add Trivia Question"
             android:textAlignment="center"
-            android:textColor="#9C27B0"
+            android:textColor="#b89928"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/startGameId" />
@@ -69,7 +73,7 @@
             android:paddingVertical="5dp"
             android:text="Leave a Message"
             android:textAlignment="center"
-            android:textColor="#9C27B0"
+            android:textColor="#b89928"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addTriviaQuestionId" />
@@ -99,7 +103,7 @@
             android:layout_height="60dp"
             android:clickable="true"
             android:onClick="leaderBoardClick"
-            app:backgroundTint="#9C27B0"
+            app:backgroundTint="#b89928"
             app:layout_constraintBottom_toTopOf="@+id/locationLabelHomeScreenId"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
@@ -113,7 +117,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="viewMessagesClick"
-            app:backgroundTint="#9C27B0"
+            app:backgroundTint="#b89928"
             app:layout_constraintBottom_toTopOf="@+id/locationLabelHomeScreenId"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +130,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="profilePageClick"
-            app:backgroundTint="#9C27B0"
+            app:backgroundTint="#b89928"
             app:layout_constraintBottom_toTopOf="@+id/locationLabelHomeScreenId"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.89"
@@ -137,13 +141,14 @@
         <TextView
             android:id="@+id/gameTitleId"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:paddingVertical="5dp"
+            android:paddingTop="15dp"
             android:text="Geo Trophy"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="#9C27B0"
-            android:textSize="24sp"
+            android:textColor="#b89928"
+            android:textSize="35dp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="121dp" />

@@ -163,8 +163,8 @@
                     android:layout_height="55dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp"
-                    android:onClick="goToNextQuestion"
                     android:backgroundTint="#b89928"
+                    android:onClick="goToNextQuestion"
                     android:text="Next" />
 
                 <ImageView

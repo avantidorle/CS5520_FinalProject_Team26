@@ -98,6 +98,7 @@ public class TriviaPageActivity extends AppCompatActivity {
         }
         loggedInUserUserId = getIntent().getStringExtra("loggedInUserID");
         address = getIntent().getStringExtra("address");
+//        address = "Westfield World Trade Center";
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -346,7 +347,7 @@ public class TriviaPageActivity extends AppCompatActivity {
                                                 downVotes.setText(dislikes);
                                                 presentQuestionAnswer = qSnap.child("answer").getValue().toString();
                                                 questionHint = qSnap.child("hint").getValue().toString();
-                                                question.setText(presentQuestionAnswer + " " + questionText);
+                                                question.setText(questionText);
                                                 int o = 0;
                                                 option1.setEnabled(true);
                                                 option2.setEnabled(true);
@@ -423,7 +424,15 @@ public class TriviaPageActivity extends AppCompatActivity {
                     }
                 } else {
                     showPopUp();
-                    Toast.makeText(getBaseContext(), "done with all questions", Toast.LENGTH_LONG).show();
+                    question.setText("Question goes here...");
+                    option1.setText("OPTION 1");
+                    option2.setText("OPTION 2");
+                    option3.setText("OPTION 3");
+                    option4.setText("OPTION 4");
+                    option1.setBackgroundColor(Color.parseColor("#fff8e3"));
+                    option2.setBackgroundColor(Color.parseColor("#fff8e3"));
+                    option3.setBackgroundColor(Color.parseColor("#fff8e3"));
+                    option4.setBackgroundColor(Color.parseColor("#fff8e3"));
                 }
             }
 
