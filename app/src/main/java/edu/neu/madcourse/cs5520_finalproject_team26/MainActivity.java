@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -136,8 +137,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        schedule();
 
+    }
 
+    public void schedule() {
+        startService(new Intent(this, NotificationService.class));
     }
 
     @Override
