@@ -13,10 +13,13 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.IBinder;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -34,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class NotificationService extends Service {
+public class NotificationService extends Service implements LocationListener {
 
     final static String ACTION = "NotifyServiceAction";
     final static int RQS_STOP_SERVICE = 1;
@@ -87,7 +90,6 @@ public class NotificationService extends Service {
     }
 
     private void getLocationChanges() {
-
     }
 
     @Override
@@ -101,7 +103,14 @@ public class NotificationService extends Service {
             return null;
         }
 
-        public class NotifyServiceReceiver extends BroadcastReceiver {
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+        Toast.makeText(getApplicationContext(), location.getLatitude() +
+                " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+
+    }
+    public class NotifyServiceReceiver extends BroadcastReceiver {
 
             @Override
             public void onReceive(Context arg0, Intent arg1) {
