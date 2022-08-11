@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FBF6B9">
+    android:background="@drawable/background2">
 
     <ImageView
         android:id="@+id/iv_userProfilePic_mg"
