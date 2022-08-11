@@ -1,6 +1,9 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,7 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -53,6 +55,9 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
     EditText messageText;
     EditText location_edt;
     Button leaveNote;
+    Button ok;
+    Button home;
+    Dialog dialog;
 
     ListView recipientNames;
     RecepientNamesAdapter rmAdapter;
@@ -97,6 +102,8 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
         users = new ArrayList<>();
         rmAdapter = new RecepientNamesAdapter(this,users);
 
+        Context context = this;
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -121,8 +128,6 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             });
             locationRequest = LocationRequest.create();
@@ -212,7 +217,29 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                 newMsg.setSentTime(timeStamp);
                 String key = messageRecords.push().getKey();
                 messageRecords.child(key).setValue(newMsg);
-                Toast.makeText(LeaveNoteActivity.this, "Note was sent successfully", Toast.LENGTH_SHORT).show();
+
+                dialog = new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.messagesent_popup);
+                dialog.show();
+                ok = dialog.findViewById(R.id.btn_okay);
+                home = dialog.findViewById(R.id.btn_backtoHome);
+
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, LeaveNoteActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                home.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
         });
     }

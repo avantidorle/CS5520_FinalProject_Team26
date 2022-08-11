@@ -1,11 +1,18 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -22,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -110,11 +118,77 @@ public class ViewMessagesActivity extends AppCompatActivity implements MessageAd
 
     @Override
     public void onItemClicked(Message message) {
-        Toast.makeText(this, message.getMessageText(),Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, ShowMessageActivity.class);
-        intent.putExtra("senderName",message.getSenderId());
-        intent.putExtra("Message",message.getMessageText());
-        intent.putExtra("MsgLoc",message.getLocation());
-        startActivity(intent);
+        Dialog dialog;
+        dialog = new Dialog(this);
+        Context context = this;
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.show_message_popup);
+        dialog.show();
+        Button ok = dialog.findViewById(R.id.btn_okay_vm);
+        Button home = dialog.findViewById(R.id.btn_home);
+        TextView sender = dialog.findViewById(R.id.tv_senderName);
+
+        messageRecords.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                messageArrayList.clear();
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    Message msg = ds.getValue(Message.class);
+                    assert message != null;
+//                    if(message.getReceiverId().equals(loggedInUser) && message.getMessageText().equals(msg.getMessageText())
+//                    && message.getLocation().equals(msg.getLocation()) && msg.getSenderId().equals(message.getSenderId())){
+//                        messageRecords.child(ds.getKey()).updateChildren()
+//                    }
+                }
+                messageAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        sender.setText(getUserName(message.getSenderId()));
+        MultiAutoCompleteTextView location = dialog.findViewById(R.id.mtv_location);
+        location.setText(message.getLocation());
+        MultiAutoCompleteTextView messageText = dialog.findViewById(R.id.mtv_messageText);
+        messageText.setText(message.getMessageText());
+        ImageView senderImage = dialog.findViewById(R.id.iv_senderPic);
+        Picasso.get().load(getUserProfilePic(message.getSenderId())).into(senderImage);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ViewMessagesActivity.class);
+                startActivity(intent);
+            }
+        });
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public String getUserName(String userId){
+        for(User u : userArrayList){
+            if(u.getUserId().equals(userId)){
+                return u.getUsername();
+            }
+        }
+        return "Invalid Recipient";
+    }
+
+    private String getUserProfilePic(String senderId) {
+        for(User u : userArrayList){
+            if(u.getUserId().equals(senderId)){
+                Log.d("logging userprofile" ,u.getProfilePic() );
+                return u.getProfilePic();
+            }
+        }
+        return "";
     }
 }
