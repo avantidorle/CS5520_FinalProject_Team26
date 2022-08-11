@@ -1,12 +1,18 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +37,7 @@ public class PlayerSummaryActivity extends AppCompatActivity {
     private TextView editProfile;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String usrId = user.getUid();
-    private String loggedInUserUserId = "dab90150-4740-4e88-ac66-50bf608a9655";
+    private String loggedInUserUserId = "";
 
     DatabaseReference usersTable;
     DatabaseReference questionsTable;
@@ -45,6 +51,19 @@ public class PlayerSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_summary);
+
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#b89928"));
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#b89928"));
+
+        actionBar.setBackgroundDrawable(colorDrawable);
+
+        loggedInUserUserId = getIntent().getStringExtra("loggedInUserID");
 
         // display player name, total geocoins, total questions contributed
         playerName = findViewById(R.id.playerName);

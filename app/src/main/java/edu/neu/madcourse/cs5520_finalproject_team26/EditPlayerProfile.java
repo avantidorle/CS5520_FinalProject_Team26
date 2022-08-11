@@ -2,13 +2,18 @@ package edu.neu.madcourse.cs5520_finalproject_team26;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,11 +47,23 @@ public class EditPlayerProfile extends AppCompatActivity {
     ProgressBar progressBar;
     Uri imageURI;
     StorageReference reference = FirebaseStorage.getInstance().getReference();
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_player_profile);
+
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#b89928"));
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#b89928"));
+
+        actionBar.setBackgroundDrawable(colorDrawable);
 
         playerUserName = findViewById(R.id.playerUserName);
         playerProfileImageView = findViewById(R.id.playerProfileImageView);
@@ -56,7 +73,7 @@ public class EditPlayerProfile extends AppCompatActivity {
 
         loggedInUserUserId = getIntent().getStringExtra("loggedInUserUserId");
         usersTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
-        Query presentUser = usersTable.orderByChild("userId").equalTo(loggedInUserUserId);
+        Query presentUser = usersTable.orderByChild("userId").equalTo(getIntent().getStringExtra("loggedInUserUserId"));
         presentUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot userSnapshot) {
@@ -87,11 +104,15 @@ public class EditPlayerProfile extends AppCompatActivity {
 
 
         saveProfileDetails.setOnClickListener(v -> {
-
+            intent = new Intent(this, MainActivity.class);
+            String playerName = playerUserName.getText().toString();
+            if (!playerName.equals("") && imageURI == null) {
+                usersTable.child(presentUserKey).child("username").setValue(playerName);
+                intent.putExtra("loggedInUserUserId", loggedInUserUserId);
+                startActivity(intent);
+            }
             if (imageURI != null) {
                 uploadToFirebase(imageURI);
-            } else {
-                Toast.makeText(getBaseContext(), "Error in saving", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -102,21 +123,30 @@ public class EditPlayerProfile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-            imageURI  = data.getData();
+            imageURI = data.getData();
             playerProfileImageView.setImageURI(imageURI);
         }
     }
 
     private void uploadToFirebase(Uri uri) {
-        StorageReference fileRef =  reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+        StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+                        usersTable = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("users");
+                        usersTable.child(presentUserKey).child("profilePic").setValue(uri.toString());
                         progressBar.setVisibility(View.INVISIBLE);
+                        String playerName = playerUserName.getText().toString();
+                        if (!playerName.equals("")) {
+                            usersTable.child(presentUserKey).child("username").setValue(playerName);
+                            intent.putExtra("loggedInUserUserId", loggedInUserUserId);
+                            startActivity(intent);
+                        }
+                        intent.putExtra("loggedInUserUserId", loggedInUserUserId);
+                        startActivity(intent);
                     }
                 });
             }
@@ -129,7 +159,7 @@ public class EditPlayerProfile extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getBaseContext(), "Uploading failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Image upload failed", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -3,13 +3,20 @@ package edu.neu.madcourse.cs5520_finalproject_team26;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +57,17 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_questions);
 
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#b89928"));
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#b89928"));
+
+        actionBar.setBackgroundDrawable(colorDrawable);
+
         questionText = findViewById(R.id.question_text);
         optionA = findViewById(R.id.option_a_text);
         optionB = findViewById(R.id.option_b_text);
@@ -62,6 +80,14 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
         getLoggedinUser();
         ADDRESS = getIntent().getStringExtra("address");
         addQuestion.setOnClickListener(this);
+    }
+
+    private boolean isValidInput() {
+        return !questionText.getText().toString().equals("") &&
+                !optionA.getText().toString().equals("") &&
+                !optionB.getText().toString().equals("") &&
+                !optionC.getText().toString().equals("") &&
+                !optionD.getText().toString().equals("");
     }
 
     private void getLoggedinUser() {
@@ -86,35 +112,39 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
 
-        databaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
-                .getReference("questions");
+        if(isValidInput()) {
+            databaseReference = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/")
+                    .getReference("questions");
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> options = new ArrayList<>(Arrays.asList(
-                        optionA.getText().toString(),
-                        optionB.getText().toString(),
-                        optionC.getText().toString(),
-                        optionD.getText().toString()));
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    List<String> options = new ArrayList<>(Arrays.asList(
+                            optionA.getText().toString(),
+                            optionB.getText().toString(),
+                            optionC.getText().toString(),
+                            optionD.getText().toString()));
 
-                Question question = new Question(questionText.getText().toString(),
-                        options, hint.getText().toString(), answer.getSelectedItemPosition(),CREATED_BY);
+                    Question question = new Question(questionText.getText().toString(),
+                            options, hint.getText().toString(), answer.getSelectedItemPosition(),CREATED_BY);
 
-                databaseReference.push().setValue(question);
+                    databaseReference.push().setValue(question);
 
-                updateLocation(question);
-                updateGeoCoins();
-                showPopUp();
+                    updateLocation(question);
+                    updateGeoCoins();
+                    showPopUp();
 
-                clearInputs();
-            }
+                    clearInputs();
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        } else {
+            Toast.makeText(this,"Please fill all the inputs correctly!",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateGeoCoins() {

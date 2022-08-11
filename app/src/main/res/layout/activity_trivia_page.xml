@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TriviaPageActivity">
+    tools:context=".TriviaPageActivity"
+    android:layout_margin="10dp"
+    android:background="@drawable/background2"
+    >
 
     <TextView
         android:id="@+id/location_trivia_page"
@@ -16,7 +19,8 @@
         android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        />
 
     <ImageView
         android:id="@+id/questionHint"
@@ -28,7 +32,7 @@
         android:contentDescription="sticker"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
-        android:src="@mipmap/question_hint"
+        android:src="@mipmap/question_hint_round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,22 +69,25 @@
         app:layout_constraintTop_toTopOf="@+id/questionHint"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-2dp">
+        tools:layout_editor_absoluteX="-2dp"
+        >
 
         <LinearLayout
             android:id="@+id/questionAnswerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            >
 
             <TextView
                 android:id="@+id/question"
                 android:layout_width="fill_parent"
                 android:layout_height="80dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
                 android:text="Question goes here..."
-                android:textSize="25dp"/>
+                android:textSize="25dp"
+                android:background="@drawable/background2"
+                />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -91,8 +98,8 @@
                 android:layout_alignLeft="@+id/textView2"
                 android:layout_alignEnd="@+id/textView3"
                 android:layout_alignRight="@+id/textView3"
-                android:layout_marginTop="58dp"
-                android:weightSum="1">
+                android:weightSum="1"
+                >
 
                 <RadioButton
                     android:id="@+id/option1"
@@ -148,13 +155,15 @@
                     android:onClick="likeQuestion"
                     android:paddingLeft="20dp"
                     android:paddingTop="10dp"
-                    android:src="@mipmap/heart_unfilled_foreground" />
+                    android:src="@mipmap/heart_unfilled_round" />
 
                 <Button
                     android:id="@+id/nextQuestion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="160dp"
+                    android:layout_height="55dp"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:backgroundTint="#b89928"
                     android:onClick="goToNextQuestion"
                     android:text="Next" />
 
@@ -167,7 +176,7 @@
                     android:onClick="dislikeQuestion"
                     android:paddingTop="10dp"
                     android:paddingRight="20dp"
-                    android:src="@mipmap/dislike_icon_foreground" />
+                    android:src="@mipmap/dislike_icon_round" />
             </RelativeLayout>
 
             <RelativeLayout
