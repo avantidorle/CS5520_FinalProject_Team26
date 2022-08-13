@@ -33,9 +33,10 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
         this.messageListener = msgListener;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull messagesViewholder holder, int position) {
-            Message message = messagesList.get(position);
+            Message message = messagesList.get(getItemCount() - position -1);
             holder.senderName.setText(getSenderName(message.getSenderId()));
             holder.messageText.setText(message.getMessageText());
             holder.messageLocation.setText(message.getLocation());
@@ -47,7 +48,7 @@ public class MessageAdapter extends RecyclerView.Adapter< MessageAdapter.message
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    messageListener.onItemClicked(messagesList.get(position));
+                    messageListener.onItemClicked(messagesList.get(getItemCount() - position-1));
                 }
             });
     }

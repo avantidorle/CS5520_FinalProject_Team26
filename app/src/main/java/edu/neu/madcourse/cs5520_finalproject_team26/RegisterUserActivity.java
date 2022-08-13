@@ -1,9 +1,5 @@
 package edu.neu.madcourse.cs5520_finalproject_team26;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,13 +12,18 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
@@ -109,13 +110,13 @@ public class RegisterUserActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
                                         Toast.makeText(RegisterUserActivity.this, "Registered Successfully!",Toast.LENGTH_LONG).show();
+                                        retrieveAndStoreToken();
                                         startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
 
                                     }
                                     else {
                                         Toast.makeText(RegisterUserActivity.this, "Registration Failed!" + task.getException().getMessage(),Toast.LENGTH_LONG).show();
                                         Log.v("Registration failed", task.getException().getMessage());
-
 
                                     }
                                 }
@@ -140,5 +141,24 @@ public class RegisterUserActivity extends AppCompatActivity {
     public void loginInRegisterClick(View view) {
 
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    private void retrieveAndStoreToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("logging fcm", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        String userID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+                        FirebaseDatabase.getInstance().getReference("token").child(userID).setValue(token);
+
+                    }
+                });
     }
 }

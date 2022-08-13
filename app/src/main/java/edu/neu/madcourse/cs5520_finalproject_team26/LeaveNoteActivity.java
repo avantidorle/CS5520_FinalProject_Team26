@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -49,6 +50,7 @@ import java.util.Locale;
 import edu.neu.madcourse.cs5520_finalproject_team26.models.Message;
 import edu.neu.madcourse.cs5520_finalproject_team26.models.User;
 
+
 public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener{
 
     SearchView receiver;
@@ -63,6 +65,7 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
     RecepientNamesAdapter rmAdapter;
     DatabaseReference userRecords;
     DatabaseReference messageRecords;
+    DatabaseReference tokenRecords;
     ArrayList<User> users;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
     String loggedInUser = currentUser.getUid();
@@ -93,6 +96,7 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                 = new ColorDrawable(Color.parseColor("#b89928"));
 
         actionBar.setBackgroundDrawable(colorDrawable);
+
 
         receiver = findViewById(R.id.sv_recipient_lan);
         recipientNames = findViewById(R.id.lv_recipientNames_lan);
@@ -207,41 +211,93 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
         leaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Message newMsg = new Message();
-                newMsg.setReceiverId(getUserId(receiver.getQuery().toString()));
-                newMsg.setLocation(String.valueOf(location_edt.getText()));
-                newMsg.setSeen(false);
-                newMsg.setMessageText(String.valueOf(messageText.getText()));
-                newMsg.setSenderId(loggedInUser);
-                String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
-                newMsg.setSentTime(timeStamp);
-                String key = messageRecords.push().getKey();
-                messageRecords.child(key).setValue(newMsg);
+                Log.d("logging RECEIVER", receiver.getQuery().toString());
+                if(!receiver.getQuery().toString().equals("")){
+                    Message newMsg = new Message();
+                    newMsg.setReceiverId(getUserId(receiver.getQuery().toString()));
+                    newMsg.setLocation(String.valueOf(location_edt.getText()));
+                    newMsg.setSeen(false);
+                    newMsg.setMessageText(String.valueOf(messageText.getText()));
+                    newMsg.setSenderId(loggedInUser);
+                    String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+                    newMsg.setSentTime(timeStamp);
+                    String key = messageRecords.push().getKey();
+                    messageRecords.child(key).setValue(newMsg);
+                    dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.messagesent_popup);
+                    dialog.show();
+                    ok = dialog.findViewById(R.id.btn_okay);
+                    home = dialog.findViewById(R.id.btn_backtoHome);
 
-                dialog = new Dialog(context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.messagesent_popup);
-                dialog.show();
-                ok = dialog.findViewById(R.id.btn_okay);
-                home = dialog.findViewById(R.id.btn_backtoHome);
+                    DatabaseReference tokenRecords = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("token");
+                    final String[] registrationToken = {""};
+                    final String[] receiverKey = {""};
+                    userRecords.addValueEventListener(new ValueEventListener() {
+                          @Override
+                          public void onDataChange(@NonNull DataSnapshot snapshot) {
+                              for(DataSnapshot ds : snapshot.getChildren()){
+                                  User user = ds.getValue(User.class);
+                                  if(user.getUserId().equals(newMsg.getReceiverId())){
+                                      receiverKey[0] = ds.getKey().toString();
+                                      DatabaseReference tokenRecords =  FirebaseDatabase.getInstance().getReference().child("token");
+                                      tokenRecords.addValueEventListener(new ValueEventListener() {
+                                          @Override
+                                          public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                              for(DataSnapshot ds : snapshot.getChildren()){
+                                                  if(ds.getKey().equals(receiverKey[0])){
+                                                      registrationToken[0] = ds.getValue().toString();
+                                                      FcmNotificationsSender notification = new FcmNotificationsSender(registrationToken[0], "New message received ", "Location : " + newMsg.getLocation() + " \n Message : " + newMsg.getMessageText(), getApplicationContext(), LeaveNoteActivity.this);
+                                                      notification.SendNotifications();
+                                                  }
+                                              }
+                                          }
 
-                ok.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, LeaveNoteActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                home.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, MainActivity.class);
-                        startActivity(intent);
-                    }
-                });
+                                          @Override
+                                          public void onCancelled(@NonNull DatabaseError error) {
+
+                                          }
+                                      });
+                                  }
+                              }
+                          }
+
+                          @Override
+                          public void onCancelled(@NonNull DatabaseError error) {
+
+                          }
+
+
+                      });
+
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, LeaveNoteActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    home.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }else{
+                    Toast.makeText(context, "Please enter recipient Id", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -264,7 +320,7 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                 return u.getUserId();
             }
         }
-
         return "Invalid Recipient";
     }
+
 }

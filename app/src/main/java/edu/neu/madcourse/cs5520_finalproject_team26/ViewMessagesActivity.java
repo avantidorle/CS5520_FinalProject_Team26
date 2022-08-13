@@ -9,12 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -117,6 +116,12 @@ public class ViewMessagesActivity extends AppCompatActivity implements MessageAd
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public void onItemClicked(Message message) {
         Dialog dialog;
         dialog = new Dialog(this);
@@ -135,10 +140,10 @@ public class ViewMessagesActivity extends AppCompatActivity implements MessageAd
                 for(DataSnapshot ds: snapshot.getChildren()){
                     Message msg = ds.getValue(Message.class);
                     assert message != null;
-//                    if(message.getReceiverId().equals(loggedInUser) && message.getMessageText().equals(msg.getMessageText())
-//                    && message.getLocation().equals(msg.getLocation()) && msg.getSenderId().equals(message.getSenderId())){
-//                        messageRecords.child(ds.getKey()).updateChildren()
-//                    }
+                    if(message.getReceiverId().equals(loggedInUser) && message.getMessageText().equals(msg.getMessageText())
+                    && message.getLocation().equals(msg.getLocation()) && msg.getSenderId().equals(message.getSenderId()) && msg.getSentTime().equals(message.getSentTime())){
+                        messageRecords.child(ds.getKey()).child("seen").setValue(true);
+                    }
                 }
                 messageAdapter.notifyDataSetChanged();
             }

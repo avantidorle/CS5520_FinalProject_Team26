@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,9 +24,6 @@
         tools:targetApi="31">
         <activity
             android:name=".NoAvailableQuestions"
-            android:exported="false" />
-        <activity
-            android:name=".ShowMessageActivity"
             android:exported="false" />
         <activity
             android:name=".ViewMessagesActivity"
@@ -66,6 +65,15 @@
         <activity
             android:name=".Leaderboard"
             android:exported="false" />
+        <service
+            android:name=".FirebaseMessagingService"
+            android:permission="true"
+            tools:ignore="ExportedService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
