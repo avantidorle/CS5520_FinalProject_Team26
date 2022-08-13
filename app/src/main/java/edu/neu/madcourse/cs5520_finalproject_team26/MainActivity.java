@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                                 Location.distanceBetween(prevLatitude, prevLongitude, presentLatitude, presentLongitude,distance);
                                 distanceTravelled = distanceTravelled + distance[0];
                                 if (distanceTravelled > 150) {
+
                                     String address = addresses.get(0).getAddressLine(0);
                                     locationDisplay.setText(address);
                                     distanceTravelled = 0;
@@ -165,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
             };
             mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
         }
-
     }
 
     @Override
