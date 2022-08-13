@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private Geocoder geocoder;
     private TextView locationDisplay;
-    private double prevLatitudeValue;
-    private double prevLongitudeValue;
-    private double latitudeValue;
-    private double longitudeValue;
+    private double prevLatitude;
+    private double prevLongitude;
+    private double presentLatitude;
+    private double presentLongitude;
     private List<Address> addresses;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -100,64 +100,71 @@ public class MainActivity extends AppCompatActivity {
                     99);
 
         } else {
-            // already permission granted
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
             mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+
                 if (location != null) {
                     try {
-                        latitudeValue = location.getLatitude();
-                        longitudeValue = location.getLongitude();
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        prevLatitude = location.getLatitude();
+                        prevLongitude = location.getLongitude();
+                        presentLatitude = location.getLatitude();
+                        presentLongitude = location.getLongitude();
                         geocoder = new Geocoder(this, Locale.getDefault());
-                        addresses = geocoder.getFromLocation(latitudeValue, longitudeValue, 1);
-                        address = addresses.get(0).getAddressLine(0);
+                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                        String address = addresses.get(0).getAddressLine(0);
                         locationDisplay.setText(address);
-
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback,null);
+
                 }
             });
-        }
+            locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setInterval(1000);
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    if (locationResult == null) {
+                        return;
+                    }
+                    for (Location location : locationResult.getLocations()) {
+                        if (location != null) {
 
 
+                            try {
+                                prevLatitude = presentLatitude;
+                                prevLongitude = presentLongitude;
+                                presentLatitude = location.getLatitude();
+                                presentLongitude = location.getLongitude();
 
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(3*1000);
+                                geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                                addresses = geocoder.getFromLocation(presentLatitude, presentLongitude,1);
+                                float[] distance = new float[1];
+                                Location.distanceBetween(prevLatitude, prevLongitude, presentLatitude, presentLongitude,distance);
+                                distanceTravelled = distanceTravelled + distance[0];
+                                if (distanceTravelled > 150) {
+                                    String address = addresses.get(0).getAddressLine(0);
+                                    locationDisplay.setText(address);
+                                    distanceTravelled = 0;
+                                    prevLatitude = location.getLatitude();
+                                    prevLongitude = location.getLongitude();
+                                    presentLatitude = location.getLatitude();
+                                    presentLongitude = location.getLongitude();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-
-        locationCallback = new LocationCallback() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    if (location != null) {
-                        try {
-                            prevLatitudeValue = latitudeValue;
-                            prevLongitudeValue = longitudeValue;
-                            latitudeValue = location.getLatitude();
-                            longitudeValue = location.getLongitude();
-                            geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-                            addresses = geocoder.getFromLocation(latitudeValue, longitudeValue, 1);
-                            address = addresses.get(0).getAddressLine(0);
-                            locationDisplay.setText(address);
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-
-                        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback,null);
-
                     }
                 }
-            }
-        };
-
-
+            };
+            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        }
 
     }
 
