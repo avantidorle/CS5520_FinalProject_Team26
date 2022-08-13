@@ -27,6 +27,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         r.play();
@@ -40,10 +41,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         int resourceImage = getResources().getIdentifier(remoteMessage.getNotification().getIcon(), "drawable", getPackageName());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            builder.setSmallIcon(R.drawable.icontrans);
             builder.setSmallIcon(R.drawable.red_message_icon);
         } else {
-//            builder.setSmallIcon(R.drawable.icon_kritikar);
             builder.setSmallIcon(R.drawable.red_message_icon);
         }
         Intent resultIntent = new Intent(this, SplashScreen.class);
@@ -66,9 +65,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             mNotificationManager.createNotificationChannel(channel);
             builder.setChannelId(channelId);
         }
-
-
-
 // notificationId is a unique int for each notification that you must define
         mNotificationManager.notify(100, builder.build());
 

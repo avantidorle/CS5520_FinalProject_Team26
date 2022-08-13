@@ -244,13 +244,15 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                                       tokenRecords.addValueEventListener(new ValueEventListener() {
                                           @Override
                                           public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                              FcmNotificationsSender notification = null;
                                               for(DataSnapshot ds : snapshot.getChildren()){
                                                   if(ds.getKey().equals(receiverKey[0])){
                                                       registrationToken[0] = ds.getValue().toString();
-                                                      FcmNotificationsSender notification = new FcmNotificationsSender(registrationToken[0], "New message received ", "Location : " + newMsg.getLocation() + " \n Message : " + newMsg.getMessageText(), getApplicationContext(), LeaveNoteActivity.this);
-                                                      notification.SendNotifications();
+                                                      notification = new FcmNotificationsSender(registrationToken[0], "New message received ", "Location : " + newMsg.getLocation() + " \n Message : " + newMsg.getMessageText(), getApplicationContext(), LeaveNoteActivity.this);
+                                                     
                                                   }
                                               }
+                                              notification.SendNotifications();
                                           }
 
                                           @Override

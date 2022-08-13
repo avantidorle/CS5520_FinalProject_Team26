@@ -25,7 +25,6 @@ public class FcmNotificationsSender  {
     String body;
     Context mContext;
     Activity mActivity;
-    String userToken;
 
 
     private RequestQueue requestQueue;
@@ -55,8 +54,6 @@ public class FcmNotificationsSender  {
                 @Override
                 public void onResponse(JSONObject response) {
                     Log.d("Logging noti", response.toString());
-                    // code run is got response
-
                 }
             }, new Response.ErrorListener() {
                 @Override
