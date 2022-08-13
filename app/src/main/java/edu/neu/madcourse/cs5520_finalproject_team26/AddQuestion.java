@@ -130,9 +130,13 @@ public class AddQuestion extends AppCompatActivity implements View.OnClickListen
 
                     databaseReference.push().setValue(question);
 
-                    updateLocation(question);
-                    updateGeoCoins();
-                    showPopUp();
+                    if(ADDRESS != null) {
+                        updateLocation(question);
+                        updateGeoCoins();
+                        showPopUp();
+                    } else {
+                        Toast.makeText(AddQuestion.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    }
 
                     clearInputs();
                 }
