@@ -80,6 +80,7 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
     private double presentLatitude;
     private double presentLongitude;
     private double distanceTravelled = 0.0f;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,7 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                         presentLongitude = location.getLongitude();
                         geocoder = new Geocoder(this, Locale.getDefault());
                         addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                        String address = addresses.get(0).getAddressLine(0);
+                        address = addresses.get(0).getAddressLine(0);
                         location_edt.setText(address);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -230,6 +231,8 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                     ok = dialog.findViewById(R.id.btn_okay);
                     home = dialog.findViewById(R.id.btn_backtoHome);
 
+
+
                     DatabaseReference tokenRecords = FirebaseDatabase.getInstance("https://mad-finalproject-team26-default-rtdb.firebaseio.com/").getReference("token");
                     final String[] registrationToken = {""};
                     final String[] receiverKey = {""};
@@ -239,27 +242,29 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                               for(DataSnapshot ds : snapshot.getChildren()){
                                   User user = ds.getValue(User.class);
                                   if(user.getUserId().equals(newMsg.getReceiverId())){
-                                      receiverKey[0] = ds.getKey().toString();
-                                      DatabaseReference tokenRecords =  FirebaseDatabase.getInstance().getReference().child("token");
-                                      tokenRecords.addValueEventListener(new ValueEventListener() {
-                                          @Override
-                                          public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                              FcmNotificationsSender notification = null;
-                                              for(DataSnapshot ds : snapshot.getChildren()){
-                                                  if(ds.getKey().equals(receiverKey[0])){
-                                                      registrationToken[0] = ds.getValue().toString();
-                                                      notification = new FcmNotificationsSender(registrationToken[0], "New message received ", "Location : " + newMsg.getLocation() + " \n Message : " + newMsg.getMessageText(), getApplicationContext(), LeaveNoteActivity.this);
-                                                     
+
+                                          receiverKey[0] = ds.getKey().toString();
+                                          DatabaseReference tokenRecords =  FirebaseDatabase.getInstance().getReference().child("token");
+                                          tokenRecords.addValueEventListener(new ValueEventListener() {
+                                              @Override
+                                              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                  FcmNotificationsSender notification = null;
+                                                  for(DataSnapshot ds : snapshot.getChildren()){
+                                                      if(ds.getKey().equals(receiverKey[0])){
+                                                          registrationToken[0] = ds.getValue().toString();
+                                                          notification = new FcmNotificationsSender(registrationToken[0], "New message received from ", newMsg.getLocation() + " \n" +
+                                                                  newMsg.getMessageText(), getApplicationContext(), LeaveNoteActivity.this);
+                                                      }
                                                   }
+                                                  assert notification != null;
+                                                  notification.SendNotifications();
                                               }
-                                              notification.SendNotifications();
-                                          }
 
-                                          @Override
-                                          public void onCancelled(@NonNull DatabaseError error) {
+                                              @Override
+                                              public void onCancelled(@NonNull DatabaseError error) {
 
-                                          }
-                                      });
+                                              }
+                                          });
                                   }
                               }
                           }
@@ -268,7 +273,6 @@ public class LeaveNoteActivity extends AppCompatActivity  implements SearchView.
                           public void onCancelled(@NonNull DatabaseError error) {
 
                           }
-
 
                       });
 
