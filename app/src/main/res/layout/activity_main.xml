@@ -12,24 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"><![CDATA[
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/logoutButtonId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="logOutClick"
-            android:text="Log out"
-            android:textSize="20dp"
-            android:paddingLeft="3dp"
-            android:paddingTop="3dp"
-            android:textColor="#b89928"
-            tools:layout_editor_absoluteX="136dp"
-            tools:layout_editor_absoluteY="90dp"
-            tools:ignore="MissingConstraints" />
+
+
+        ]]>
 
         <TextView
             android:id="@+id/startGameId"
@@ -152,6 +142,17 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="121dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/logoutButtonId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="logOutClick"
+            app:backgroundTint="#b89928"
+            app:layout_constraintEnd_toEndOf="@+id/gameTitleId"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_logout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

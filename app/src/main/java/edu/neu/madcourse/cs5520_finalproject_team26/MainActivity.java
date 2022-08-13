@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         presentLongitude = location.getLongitude();
                         geocoder = new Geocoder(this, Locale.getDefault());
                         addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                        address = addresses.get(0).getAddressLine(0);
+                        String address = addresses.get(0).getAddressLine(0);
                         locationDisplay.setText(address);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -147,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
                                 Location.distanceBetween(prevLatitude, prevLongitude, presentLatitude, presentLongitude,distance);
                                 distanceTravelled = distanceTravelled + distance[0];
                                 if (distanceTravelled > 150) {
-                                    address = addresses.get(0).getAddressLine(0);
+
+                                    String address = addresses.get(0).getAddressLine(0);
                                     locationDisplay.setText(address);
                                     distanceTravelled = 0;
                                     prevLatitude = location.getLatitude();
