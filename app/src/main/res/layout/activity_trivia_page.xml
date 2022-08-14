@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TriviaPageActivity"
+    android:layout_margin="10dp"
+    android:background="@drawable/background2"
+    >
+
+    <TextView
+        android:id="@+id/location_trivia_page"
+        android:layout_width="138dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="LOCATION"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        />
+
+    <ImageView
+        android:id="@+id/questionHint"
+        android:onClick="getQuestionHint"
+        android:layout_width="92dp"
+        android:layout_height="78dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="16dp"
+        android:contentDescription="sticker"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:src="@mipmap/question_hint_round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/geocoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:text="GEOCOINS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playerGeoCoins"
+        android:layout_width="85dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:text="0"
+        android:textSize="25dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/geocoins"
+        tools:ignore="MissingConstraints" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="110dp"
+        app:layout_constraintTop_toTopOf="@+id/questionHint"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-2dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/questionAnswerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="32dp"
+                android:text="Question goes here..."
+                android:textSize="25dp"
+                android:background="@drawable/background2"
+                />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="259dp"
+                android:layout_below="@+id/imageView"
+                android:layout_alignStart="@+id/textView2"
+                android:layout_alignLeft="@+id/textView2"
+                android:layout_alignEnd="@+id/textView3"
+                android:layout_alignRight="@+id/textView3"
+                android:weightSum="1"
+                >
+
+                <RadioButton
+                    android:id="@+id/option1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="55dp"
+                    android:checked="false"
+                    android:text="OPTION 1"
+                    android:onClick="selectedOption1"
+                    android:textSize="25dp" />
+
+                <RadioButton
+                    android:id="@+id/option2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.13"
+                    android:checked="false"
+                    android:text="OPTION 2"
+                    android:onClick="selectedOption2"
+                    android:textSize="25dp" />
+
+                <RadioButton
+                    android:id="@+id/option3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.13"
+                    android:checked="false"
+                    android:text="OPTION 3"
+                    android:onClick="selectedOption3"
+                    android:textSize="25dp" />
+
+                <RadioButton
+                    android:id="@+id/option4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.13"
+                    android:checked="false"
+                    android:text="OPTION 4"
+                    android:onClick="selectedOption4"
+                    android:textSize="25dp" />
+            </RadioGroup>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/receivedMessage_pn"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="3dp"
+                    android:contentDescription="sticker"
+                    android:onClick="likeQuestion"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:src="@mipmap/heart_unfilled_round" />
+
+                <Button
+                    android:id="@+id/nextQuestion"
+                    android:layout_width="160dp"
+                    android:layout_height="55dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:backgroundTint="#b89928"
+                    android:onClick="goToNextQuestion"
+                    android:text="Next" />
+
+                <ImageView
+                    android:id="@+id/sentMessage_pn"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_alignParentRight="true"
+                    android:contentDescription="sticker"
+                    android:onClick="dislikeQuestion"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:src="@mipmap/dislike_icon_round" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/upvotesCount"
+                    android:layout_width="85dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="24dp"
+                    android:paddingLeft="20dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/downvotesCount"
+                    android:layout_width="85dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="24dp"
+                    android:paddingLeft="20dp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="25dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
